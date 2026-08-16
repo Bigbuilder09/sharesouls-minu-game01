@@ -6,6 +6,7 @@
 <title>ในฝันที่มีเธอ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
 <style>
   :root{
     --lavender-100:#F1E9F8;
@@ -727,6 +728,146 @@
     animation:whiskerTwitch 3.5s ease-in-out infinite reverse;
   }
 
+  /* ---- Cat sprite (moji) pixel-art animation ---- */
+  .pet-cat-sprite{
+    position:absolute;
+    bottom:0; left:0;
+    width:160px; height:128px;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    image-rendering:-moz-crisp-edges;
+    background-repeat:no-repeat;
+    background-position-y:0;
+  }
+  .cat-anim-idle{
+    background-image:url('moji/IDLE.png');
+    background-size:1280px 128px;
+    animation:catIdle 1s steps(8) infinite;
+  }
+  .cat-anim-walk{
+    background-image:url('moji/WALK.png');
+    background-size:1920px 128px;
+    animation:catWalk 1.1s steps(12) infinite;
+  }
+  .cat-anim-run{
+    background-image:url('moji/RUN.png');
+    background-size:1280px 128px;
+    animation:catRun 0.65s steps(8) infinite;
+  }
+  .cat-anim-jump{
+    background-image:url('moji/JUMP.png');
+    background-size:480px 128px;
+    animation:catJump 0.5s steps(3) infinite;
+  }
+  .cat-anim-running-jump{
+    background-image:url('moji/RUNNING JUMP.png');
+    background-size:480px 128px;
+    animation:catRunJump 0.45s steps(3) infinite;
+  }
+  @keyframes catRunJump{
+    from{ background-position-x:0; }
+    to  { background-position-x:-480px; }
+  }
+  @keyframes catIdle{
+    from{ background-position-x:0; }
+    to  { background-position-x:-1280px; }
+  }
+  @keyframes catWalk{
+    from{ background-position-x:0; }
+    to  { background-position-x:-1920px; }
+  }
+  @keyframes catRun{
+    from{ background-position-x:0; }
+    to  { background-position-x:-1280px; }
+  }
+  @keyframes catJump{
+    from{ background-position-x:0; }
+    to  { background-position-x:-480px; }
+  }
+  .pet-wrap.glow-strong .pet-cat-sprite{
+    filter:drop-shadow(0 0 18px rgba(244,199,126,0.9));
+  }
+
+  /* ---- Dog sprite (dog pixel.png) — displayed at 160×160px (1.25× scale of native 128×128) ---- */
+  .pet-dog-sprite{
+    position:absolute;
+    bottom:0; left:0;
+    width:160px; height:160px;
+    background-image:url('dog pixel.png');
+    background-size:640px 1440px;
+    background-repeat:no-repeat;
+    background-position-x:0;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    image-rendering:-moz-crisp-edges;
+  }
+  /* Row 0 (y=0): Idle front-facing, 4 frames */
+  .dog-anim-idle{
+    background-position-y:0px;
+    animation:dogIdle 1.0s steps(4) infinite;
+  }
+  @keyframes dogIdle{
+    from{ background-position-x:0; }
+    to  { background-position-x:-640px; }
+  }
+  /* Row 1 (y=-160px): Walk side, 4 frames */
+  .dog-anim-walk{
+    background-position-y:-160px;
+    animation:dogWalk 0.7s steps(4) infinite;
+  }
+  @keyframes dogWalk{
+    from{ background-position-x:0; }
+    to  { background-position-x:-640px; }
+  }
+  /* Row 4 (y=-640px): Alert/excited front, 4 frames */
+  .dog-anim-alert{
+    background-position-y:-640px;
+    animation:dogAlert 0.8s steps(4) infinite;
+  }
+  @keyframes dogAlert{
+    from{ background-position-x:0; }
+    to  { background-position-x:-640px; }
+  }
+  /* Row 6 (y=-960px): Sitting, 4 frames */
+  .dog-anim-sit{
+    background-position-y:-960px;
+    animation:dogSit 2.0s steps(4) infinite;
+  }
+  @keyframes dogSit{
+    from{ background-position-x:0; }
+    to  { background-position-x:-640px; }
+  }
+  /* Row 7 (y=-1120px): Lying down, 2 frames (cols 0-1 only; col 2 is empty, col 3 is icon) */
+  .dog-anim-lie{
+    background-position-y:-1120px;
+    animation:dogLie 2.5s steps(2) infinite;
+  }
+  @keyframes dogLie{
+    from{ background-position-x:0; }
+    to  { background-position-x:-320px; }
+  }
+  /* Row 2 (y=-320px): Walking away — back view, 4 frames (farewell scenes) */
+  .dog-anim-away{
+    background-position-y:-320px;
+    animation:dogAway 0.7s steps(4) infinite;
+  }
+  @keyframes dogAway{
+    from{ background-position-x:0; }
+    to  { background-position-x:-640px; }
+  }
+  /* Row 8 (y=-1280px): Run, 2 frames (cols 0-1 only; col 2 is empty, col 3 is icon) */
+  .dog-anim-run{
+    background-position-y:-1280px;
+    animation:dogRun 0.45s steps(2) infinite;
+  }
+  @keyframes dogRun{
+    from{ background-position-x:0; }
+    to  { background-position-x:-320px; }
+  }
+  .pet-wrap.glow-strong .pet-dog-sprite{
+    filter:drop-shadow(0 0 18px rgba(244,199,126,0.9));
+  }
+
   @media (prefers-reduced-motion: reduce){
     .star, .firefly{ animation:none !important; }
     .screen, .pet-wrap{ transition:none !important; }
@@ -735,6 +876,55 @@
   @media (max-width:420px){
     .glass-card{ padding:28px 22px; }
     h1.title{ font-size:1.9rem; }
+  }
+
+  /* ---- Photo upload ---- */
+  .photo-upload-area{ margin-top:4px; }
+  .photo-drop{
+    border:2px dashed var(--lavender-200);
+    border-radius:14px;
+    padding:18px 12px;
+    text-align:center;
+    background:rgba(255,255,255,0.5);
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    min-height:72px;
+    justify-content:center;
+  }
+  .photo-drop:hover{ border-color:var(--gold-400); background:rgba(255,255,255,0.7); }
+  .photo-drop span{ font-size:.92rem; color:var(--plum-700); }
+  .photo-drop small{ font-size:.74rem; color:var(--ink-soft); }
+  .photo-thumb{
+    width:100%; height:90px; object-fit:cover;
+    border-radius:12px; display:block;
+  }
+  .photo-badge{
+    display:inline-block;
+    margin-top:6px;
+    background:linear-gradient(135deg,var(--gold-400),var(--gold-600));
+    color:var(--white-soft);
+    font-size:.74rem;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:20px;
+  }
+
+  /* ---- 3D container ---- */
+  #pet3DContainer{
+    position:relative;
+    width:200px; height:220px;
+    margin-bottom:-30px;
+    z-index:4;
+    display:none;
+  }
+  #pet3DContainer canvas{
+    width:100% !important;
+    height:100% !important;
+    border-radius:10px;
   }
 
   #muteBtn{
@@ -761,6 +951,7 @@
 </style>
 </head>
 <body>
+
 
 <audio id="bgm" loop src="อ้อมกอดในความทรงจำ.mp3"></audio>
 <button id="muteBtn" onclick="toggleMute()" title="เปิด/ปิดเสียง">🎵</button>
@@ -802,6 +993,7 @@
   <!-- SCREEN 3: STORY (dream stage) -->
   <section id="screen-story" class="screen">
     <div class="stage">
+      <div id="pet3DContainer"></div>
       <div class="pet-wrap pet-dog" id="petWrap">
         <div class="tail"></div>
         <div class="ear l"><div class="inner-ear"></div></div>
@@ -878,8 +1070,12 @@ const state = {
   interactResultText:'',
   farewellResultText:'',
   interactKind:'',
-  conversation:[]
+  conversation:[],
+  photo3D: false,
+  pet3DColors: null
 };
+
+let uploadedPhotoEl = null;
 
 let storyStep = 'intro';
 
@@ -958,21 +1154,47 @@ document.getElementById('typeSelect').addEventListener('click', (e)=>{
 /* ---------------- begin dream ---------------- */
 function beginDream(){
   const nameVal = document.getElementById('petName').value.trim();
-  const memVal = document.getElementById('petMemory').value.trim();
+  const memVal  = document.getElementById('petMemory').value.trim();
   if(!nameVal){
     document.getElementById('petName').focus();
     document.getElementById('petName').style.borderColor = '#E08C8C';
     return;
   }
   state.petName = nameVal;
-  state.memory = memVal || 'อยู่ข้าง ๆ กันทุกวัน';
+  state.memory  = memVal || 'อยู่ข้าง ๆ กันทุกวัน';
 
   const petWrap = document.getElementById('petWrap');
+  const c3D = document.getElementById('pet3DContainer');
+
+  state.photo3D = !!(uploadedPhotoEl);
+
+  if(state.photo3D){
+    petWrap.style.display = 'none';
+    c3D.style.display = 'block';
+    state.pet3DColors = extractPetColors(uploadedPhotoEl);
+    storyStep = 'intro';
+    goTo('screen-story');
+    requestAnimationFrame(()=>{
+      init3D();
+      build3DPet(state.petType, state.pet3DColors);
+      loop3D(0);
+      renderStory();
+    });
+    return;
+  }
+
+  // CSS pet path (original)
+  c3D.style.display = 'none';
+  petWrap.style.display = '';
   petWrap.className = 'pet-wrap pet-' + state.petType;
   petWrap.style.opacity = '';
   petWrap.style.transition = '';
   petWrap.classList.remove('visible', 'glow-strong');
-  petWrap.innerHTML = `
+  petWrap.innerHTML = state.petType === 'cat'
+    ? `<div class="pet-cat-sprite cat-anim-idle" id="catSprite"></div>`
+    : state.petType === 'dog'
+    ? `<div class="pet-dog-sprite dog-anim-idle" id="dogSprite"></div>`
+    : `
     <div class="tail"></div>
     <div class="ear l"><div class="inner-ear"></div></div>
     <div class="ear r"><div class="inner-ear"></div></div>
@@ -1005,6 +1227,23 @@ function renderStory(){
     farewell_choice:'gentle', farewell_result:'gentle'
   };
   setPetState(_sm[storyStep] || null);
+  if(state.photo3D && storyStep !== 'interact_result') set3DGlow(false);
+
+  if(!state.photo3D && state.petType === 'cat'){
+    const _sprite = document.getElementById('catSprite');
+    if(_sprite){
+      if(storyStep === 'farewell_intro')   _sprite.className = 'pet-cat-sprite cat-anim-walk';
+      else if(storyStep === 'farewell_choice') _sprite.className = 'pet-cat-sprite cat-anim-idle';
+    }
+  }
+  if(!state.photo3D && state.petType === 'dog'){
+    const _sprite = document.getElementById('dogSprite');
+    if(_sprite){
+      if(storyStep === 'farewell_intro')        _sprite.className = 'pet-dog-sprite dog-anim-walk';
+      else if(storyStep === 'farewell_choice')  _sprite.className = 'pet-dog-sprite dog-anim-walk';
+      else if(storyStep === 'wake')             _sprite.className = 'pet-dog-sprite dog-anim-away';
+    }
+  }
 
   if(storyStep === 'intro'){
     petWrap.classList.remove('visible','glow-strong');
@@ -1019,7 +1258,11 @@ function renderStory(){
       <p class="dialogue-text">เสียงก้าวเบา ๆ ดังขึ้นจากข้างหลัง... อุ่นนวลที่คุ้นเคยโชยมาก่อนที่ตาจะมองเห็น หัวใจรู้อยู่แล้วว่าเป็นใคร — มันคือ <b>${escapeHtml(state.petName)}</b></p>
       <button class="btn-continue" onclick="nextStep('interact')">ต่อไป</button>
     `;
-    requestAnimationFrame(()=> petWrap.classList.add('visible'));
+    if(state.photo3D){
+      if(r3d.model){ r3d.model.position.x=3.5; r3d.model.userData.walkX=0; r3d.model.userData.anim='walking'; }
+    } else {
+      requestAnimationFrame(()=> petWrap.classList.add('visible'));
+    }
   }
 
   else if(storyStep === 'interact'){
@@ -1034,7 +1277,7 @@ function renderStory(){
   }
 
   else if(storyStep === 'interact_result'){
-    petWrap.classList.add('glow-strong');
+    if(state.photo3D){ set3DGlow(true); } else { petWrap.classList.add('glow-strong'); }
     box.innerHTML = `
       <p class="dialogue-text">${escapeHtml(state.interactResultText)}</p>
       <button class="btn-continue" onclick="startVent()">ต่อไป</button>
@@ -1132,11 +1375,42 @@ function renderLastMessage(){
   return `<p class="pet-speech">${escapeHtml(last.content)}</p>`;
 }
 
+const _catAnimMap = {
+  happy:'cat-anim-run',
+  listening:'cat-anim-walk',
+  speaking:'cat-anim-walk',
+  gentle:'cat-anim-idle'
+};
+
+const _dogAnimMap = {
+  idle:'dog-anim-idle',
+  happy:'dog-anim-run',
+  listening:'dog-anim-sit',
+  speaking:'dog-anim-walk',
+  gentle:'dog-anim-lie'
+};
+
 function setPetState(stateName){
+  if(state.photo3D){
+    const _3dMap = { idle:'idle', happy:'happy', listening:'listening', speaking:'speaking', gentle:'gentle' };
+    // farewell phases get walking in 3D
+    const _3dAnim = (storyStep==='farewell_intro' || storyStep==='farewell_choice') ? 'walking'
+                  : (_3dMap[stateName] || 'idle');
+    if(r3d.model) r3d.model.userData.anim = _3dAnim;
+    return;
+  }
   const pw = document.getElementById('petWrap');
   if(!pw) return;
   pw.classList.remove('pet-idle','pet-happy','pet-listening','pet-speaking','pet-gentle');
-  if(stateName) pw.classList.add('pet-'+stateName);
+  if(state.petType === 'cat'){
+    const sprite = document.getElementById('catSprite');
+    if(sprite) sprite.className = 'pet-cat-sprite ' + (_catAnimMap[stateName] || 'cat-anim-idle');
+  } else if(state.petType === 'dog'){
+    const sprite = document.getElementById('dogSprite');
+    if(sprite) sprite.className = 'pet-dog-sprite ' + (_dogAnimMap[stateName] || 'dog-anim-sit');
+  } else {
+    if(stateName) pw.classList.add('pet-'+stateName);
+  }
 }
 
 function chooseInteraction(kind){
@@ -1189,14 +1463,46 @@ function chooseFarewell(kind){
   } else {
     state.farewellResultText = `เธอไม่ได้เรียก ไม่ได้ก้าวตาม แค่ยืนมองตามเขาไปจนถึงขอบทุ่ง แผ่นหลังเล็ก ๆ ที่วิ่งออกไปนั้นสบายใจ ขาทั้งสี่เหยาะ ๆ อย่างอิสระ ไม่มีอาการเจ็บปวดอีกแล้ว ไม่มีความกลัว — มีแต่ความสุขที่บริสุทธิ์ ที่เธอให้เขาได้ก่อนที่จะตื่น`;
   }
-  petWrap.style.transition = 'opacity 2.5s ease';
-  petWrap.style.opacity = '0.15';
+  if(state.photo3D){
+    if(r3d.model){
+      r3d.model.userData.walkX = -5;
+      r3d.model.userData.anim = 'walking';
+      r3d.model.userData.fadeOut = true;
+    }
+  } else {
+    petWrap.style.transition = 'opacity 2.5s ease';
+    petWrap.style.opacity = '0.15';
+  }
   storyStep = 'farewell_result';
   renderStory();
+
+  if(!state.photo3D && state.petType === 'cat'){
+    const sprite = document.getElementById('catSprite');
+    if(sprite){
+      const catFarewellAnims = {
+        pat:     'cat-anim-idle',
+        whisper: 'cat-anim-jump',
+        watch:   'cat-anim-running-jump'
+      };
+      sprite.className = 'pet-cat-sprite ' + (catFarewellAnims[kind] || 'cat-anim-idle');
+    }
+  }
+  if(!state.photo3D && state.petType === 'dog'){
+    const sprite = document.getElementById('dogSprite');
+    if(sprite){
+      const dogFarewellAnims = {
+        pat:     'dog-anim-walk',
+        whisper: 'dog-anim-walk',
+        watch:   'dog-anim-walk'
+      };
+      sprite.className = 'pet-dog-sprite ' + (dogFarewellAnims[kind] || 'dog-anim-idle');
+    }
+  }
 }
 
 /* ---------------- finish / end screen ---------------- */
 function finishDream(){
+  if(state.photo3D && r3d.rafId){ cancelAnimationFrame(r3d.rafId); r3d.rafId=null; }
   document.getElementById('endPetName').textContent = state.petName;
   document.getElementById('endMemory').textContent = state.memory;
   document.getElementById('endMessage').textContent = state.promiseText || 'จะเก็บความทรงจำนี้ไว้ตลอดไป';
@@ -1205,6 +1511,18 @@ function finishDream(){
 
 /* ---------------- restart ---------------- */
 function restart(){
+  // Cleanup 3D
+  if(r3d.rafId){ cancelAnimationFrame(r3d.rafId); r3d.rafId=null; }
+  if(r3d.model && r3d.scene){ r3d.scene.remove(r3d.model); r3d.model=null; }
+  if(r3d.renderer){
+    const c=document.getElementById('pet3DContainer');
+    if(c) c.innerHTML='';
+    r3d.renderer=null; r3d.scene=null; r3d.camera=null;
+  }
+  state.photo3D=false; state.pet3DColors=null;
+  uploadedPhotoEl=null;
+  document.getElementById('pet3DContainer').style.display='none';
+
   document.getElementById('petName').value='';
   document.getElementById('petMemory').value='';
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('selected'));
@@ -1219,6 +1537,7 @@ function restart(){
   state.conversation=[];
   storyStep = 'intro';
   const petWrap = document.getElementById('petWrap');
+  petWrap.style.display='';
   petWrap.classList.remove('visible', 'glow-strong');
   petWrap.style.opacity = '';
   petWrap.style.transition = '';
@@ -1235,18 +1554,18 @@ let bgmStarted = false;
 
 function startBgm(){
   if(bgmStarted) return;
-  bgmStarted = true;
-  bgm.play().catch(()=>{});
+  bgm.play().then(()=>{ bgmStarted = true; }).catch(()=>{});
 }
 
 function toggleMute(){
+  if(!bgmStarted) startBgm();
   bgm.muted = !bgm.muted;
   document.getElementById('muteBtn').textContent = bgm.muted ? '🔇' : '🎵';
 }
 
-/* try autoplay immediately; fall back to first interaction if browser blocks */
+/* try autoplay immediately; fall back to first genuine user gesture */
 bgm.play().then(()=>{ bgmStarted = true; }).catch(()=>{
-  ['mousemove','touchstart','click','keydown'].forEach(ev =>
+  ['touchstart','click','keydown'].forEach(ev =>
     document.addEventListener(ev, startBgm, { once: true })
   );
 });
@@ -1256,6 +1575,349 @@ function escapeHtml(str){
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+
+
+function extractPetColors(imgEl){
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(imgEl, 0, 0, 64, 64);
+  const px = ctx.getImageData(0,0,64,64).data;
+  let r=0,g=0,b=0,n=0;
+  for(let i=0;i<px.length;i+=4){
+    const lum = px[i]*0.299 + px[i+1]*0.587 + px[i+2]*0.114;
+    if(lum>30 && lum<220){ r+=px[i]; g+=px[i+1]; b+=px[i+2]; n++; }
+  }
+  if(!n) return null;
+  r=Math.round(r/n); g=Math.round(g/n); b=Math.round(b/n);
+  return {
+    main: new THREE.Color(r/255,g/255,b/255),
+    dark: new THREE.Color(Math.max(0,r-55)/255,Math.max(0,g-55)/255,Math.max(0,b-55)/255),
+    light: new THREE.Color(Math.min(255,r+65)/255,Math.min(255,g+65)/255,Math.min(255,b+65)/255)
+  };
+}
+
+/* ================================================
+   THREE.JS 3D PET SYSTEM
+   ================================================ */
+const r3d = { scene:null, camera:null, renderer:null, model:null, rafId:null, clock:0, glowLight:null };
+
+function init3D(){
+  try{
+    const el = document.getElementById('pet3DContainer');
+    const W = el.offsetWidth || 200, H = el.offsetHeight || 220;
+    r3d.scene  = new THREE.Scene();
+    r3d.camera = new THREE.PerspectiveCamera(40, W/H, 0.1, 50);
+    r3d.camera.position.set(0, 0.35, 5.0);
+    r3d.camera.lookAt(0, 0.25, 0);
+
+    r3d.renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+    r3d.renderer.setSize(W, H);
+    r3d.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    r3d.renderer.setClearColor(0, 0);
+    r3d.renderer.toneMapping        = THREE.ACESFilmicToneMapping;
+    r3d.renderer.toneMappingExposure = 1.15;
+    el.innerHTML = '';
+    el.appendChild(r3d.renderer.domElement);
+
+    /* Lights — tuned for PBR/Standard materials */
+    r3d.scene.add(new THREE.AmbientLight(0xfff2e8, 0.55));
+
+    const key = new THREE.DirectionalLight(0xffd88a, 1.8);
+    key.position.set(2, 6, 4); r3d.scene.add(key);
+
+    const fill = new THREE.DirectionalLight(0xd8ccff, 0.70);
+    fill.position.set(-3, 1, 2); r3d.scene.add(fill);
+
+    const rim = new THREE.DirectionalLight(0xffe8d0, 0.45);
+    rim.position.set(0, -2, -3); r3d.scene.add(rim);
+
+    r3d.glowLight = new THREE.PointLight(0xFFE090, 0, 2.5);
+    r3d.glowLight.position.set(0, 0.5, 1); r3d.scene.add(r3d.glowLight);
+    r3d.clock = 0;
+  }catch(e){
+    console.warn('3D init failed', e);
+    state.photo3D = false;
+    document.getElementById('petWrap').style.display = '';
+    document.getElementById('pet3DContainer').style.display = 'none';
+  }
+}
+
+function build3DPet(petType, colors){
+  if(r3d.model) r3d.scene.remove(r3d.model);
+  const C = colors || {
+    main:  new THREE.Color(0xF4C77E),
+    dark:  new THREE.Color(0xC08830),
+    light: new THREE.Color(0xFFF4D0)
+  };
+
+  /* Low-poly flat-shaded materials — flatShading makes every polygon face visible */
+  function mat(color, rough){
+    return new THREE.MeshStandardMaterial({color, roughness:rough||0.78, metalness:0, flatShading:true});
+  }
+  const mMain  = mat(C.main,  0.75);
+  const mDark  = mat(C.dark,  0.82);
+  const mLight = mat(C.light, 0.68);
+  const mBlack = mat(0x1a1028, 0.55);
+  const mWhite = mat(0xffffff, 0.50);
+  const mPink  = mat(0xff99bb, 0.72);
+  const mIris  = mat(C.dark,  0.45);
+  const mBlushL = new THREE.MeshStandardMaterial({color:0xff6699, roughness:0.9, flatShading:true, transparent:true, opacity:0});
+  const mBlushR = new THREE.MeshStandardMaterial({color:0xff6699, roughness:0.9, flatShading:true, transparent:true, opacity:0});
+
+  const root = new THREE.Group();
+  const p = {};
+
+  /* ── Body rig ── */
+  const bodyRig = new THREE.Group();
+  root.add(bodyRig); p.bodyRig = bodyRig;
+
+  /* body — low segment count = visible polygon facets */
+  const bodyMesh = new THREE.Mesh(new THREE.SphereGeometry(0.65, 9, 7), mMain);
+  bodyMesh.scale.set(1, 0.84, 0.90); bodyRig.add(bodyMesh);
+
+  /* ── Legs with paws ── */
+  const legPos = [[-0.28,-0.60, 0.28],[0.28,-0.60, 0.28],[-0.28,-0.60,-0.22],[0.28,-0.60,-0.22]];
+  p.legs = legPos.map(([lx,ly,lz])=>{
+    const g = new THREE.Group();
+    g.position.set(lx, ly+0.16, lz);
+    /* leg cylinder */
+    const upper = new THREE.Mesh(new THREE.CapsuleGeometry(0.095, 0.20, 2, 6), mDark);
+    upper.position.y = -0.11; g.add(upper);
+    /* paw — squashed icosahedron-like sphere */
+    const paw = new THREE.Mesh(new THREE.SphereGeometry(0.108, 5, 4), mDark);
+    paw.scale.set(1.10, 0.52, 1.15); paw.position.y = -0.25; g.add(paw);
+    bodyRig.add(g); return g;
+  });
+
+  /* ── Tail ── */
+  const tailRig = new THREE.Group();
+  bodyRig.add(tailRig); p.tailRig = tailRig;
+
+  if(petType === 'dog'){
+    tailRig.position.set(0, 0.12, -0.62); tailRig.rotation.x = -0.35;
+    const tBase = new THREE.Mesh(new THREE.CapsuleGeometry(0.082, 0.22, 2, 7), mDark);
+    tBase.position.y = 0.14; tailRig.add(tBase);
+    const tTip  = new THREE.Mesh(new THREE.CapsuleGeometry(0.048, 0.14, 2, 6), mLight);
+    tTip.position.y  = 0.39; tailRig.add(tTip);
+  } else if(petType === 'cat'){
+    tailRig.position.set(0.08, -0.10, -0.62);
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0,0,0),   new THREE.Vector3(-0.05,0.34,0.08),
+      new THREE.Vector3(0,0.62,-0.10), new THREE.Vector3(0.18,0.86,0.10)
+    ]);
+    tailRig.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 8, 0.060, 5, false), mDark));
+  } else {
+    tailRig.position.set(0, 0, -0.66);
+    tailRig.add(new THREE.Mesh(new THREE.SphereGeometry(0.13, 6, 5), mDark));
+  }
+
+  /* ── Neck + Head rig ── */
+  const neckPiv = new THREE.Group();
+  neckPiv.position.set(0, 0.52, 0.18); bodyRig.add(neckPiv); p.neckPiv = neckPiv;
+  const headRig = new THREE.Group();
+  headRig.position.set(0, 0.46, 0.10); neckPiv.add(headRig); p.headRig = headRig;
+
+  /* head — few segments = angular, geometric look */
+  headRig.add(new THREE.Mesh(new THREE.SphereGeometry(0.50, 9, 7), mMain));
+
+  /* ── Ears ── */
+  p.earL = new THREE.Group(); p.earR = new THREE.Group();
+  headRig.add(p.earL); headRig.add(p.earR);
+
+  if(petType === 'cat'){
+    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
+      /* triangular cone — 4 sides looks like a real cat ear polygon */
+      const em = new THREE.Mesh(new THREE.ConeGeometry(0.19, 0.40, 4), mDark);
+      em.position.set(s*0.30, 0.44, 0); em.rotation.z = s*0.12; ear.add(em);
+      const im = new THREE.Mesh(new THREE.ConeGeometry(0.10, 0.24, 4), mPink);
+      im.position.set(s*0.30, 0.44, 0.018); im.rotation.z = s*0.12; ear.add(im);
+    });
+  } else if(petType === 'dog'){
+    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
+      const em = new THREE.Mesh(new THREE.SphereGeometry(0.24, 6, 5), mDark);
+      em.scale.set(0.60, 1.42, 0.40); em.position.set(s*0.47, 0.06, 0); em.rotation.z = s*0.28; ear.add(em);
+      const im = new THREE.Mesh(new THREE.SphereGeometry(0.14, 5, 4), mPink);
+      im.scale.set(0.50, 1.10, 0.28); im.position.set(s*0.47, 0.06, 0.04); im.rotation.z = s*0.28; ear.add(im);
+    });
+  } else {
+    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
+      const em = new THREE.Mesh(new THREE.SphereGeometry(0.17, 6, 5), mDark);
+      em.position.set(s*0.37, 0.40, 0); ear.add(em);
+      const im = new THREE.Mesh(new THREE.SphereGeometry(0.09, 5, 4), mPink);
+      im.position.set(s*0.37, 0.40, 0.06); ear.add(im);
+    });
+  }
+
+  /* ── Muzzle + nose ── */
+  const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.22, 7, 5), mLight);
+  muzzle.scale.set(1, 0.68, 0.54); muzzle.position.set(0, -0.09, 0.44); headRig.add(muzzle);
+  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.065, 5, 4), mBlack);
+  nose.scale.set(1.28, 0.68, 0.76); nose.position.set(0, -0.030, 0.485); headRig.add(nose);
+
+  /* Cat whiskers — 3 per side, thin cylinders */
+  if(petType === 'cat'){
+    const whiskerAngles = [-0.22, 0, 0.22];
+    const mWhisker = mat(0xddd8c8, 0.72);
+    [-1, 1].forEach(s=>{
+      whiskerAngles.forEach((ay, i)=>{
+        const wk = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.002, 0.44, 3), mWhisker);
+        wk.rotation.z = Math.PI / 2;
+        wk.rotation.y = ay;
+        wk.position.set(s * 0.34, -0.09 + (i-1)*0.034, 0.43);
+        headRig.add(wk);
+      });
+    });
+  }
+
+  /* ── Eyes — each is a GROUP at eye center so blink scales all layers ── */
+  p.eyeLM = null; p.eyeRM = null;
+  [[-1,'eyeLM'],[1,'eyeRM']].forEach(([s,key])=>{
+    const grp = new THREE.Group();
+    grp.position.set(s*0.188, 0.065, 0.444);
+    headRig.add(grp);
+    /* sclera */
+    const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.096, 7, 6), mWhite);
+    sclera.position.z = -0.006; grp.add(sclera);
+    /* iris — low-poly disc, flattened */
+    const iris = new THREE.Mesh(new THREE.SphereGeometry(0.070, 6, 5), mIris);
+    iris.scale.z = 0.35; iris.position.z = 0.020; grp.add(iris);
+    /* pupil */
+    const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.040, 5, 4), mBlack);
+    pupil.scale.z = 0.30; pupil.position.z = 0.028; grp.add(pupil);
+    /* catchlight */
+    const cl = new THREE.Mesh(new THREE.SphereGeometry(0.017, 4, 3), mWhite);
+    cl.position.set(s<0 ? -0.005 : 0.005, 0.020, 0.035); grp.add(cl);
+    p[key] = grp;
+  });
+
+  /* ── Blush cheeks ── */
+  p.mBlushL = mBlushL; p.mBlushR = mBlushR;
+  const blG = new THREE.SphereGeometry(0.135, 6, 4);
+  const blL = new THREE.Mesh(blG, mBlushL);
+  blL.scale.set(1, 0.45, 0.20); blL.position.set(-0.27, -0.025, 0.415); headRig.add(blL);
+  const blR = new THREE.Mesh(blG, mBlushR);
+  blR.scale.set(1, 0.45, 0.20); blR.position.set(0.27, -0.025, 0.415); headRig.add(blR);
+
+  root.position.set(0, -0.62, 0);
+  root.userData = { anim:'idle', parts:p, walkX:null, fadeOut:false, opacity:1 };
+  r3d.scene.add(root);
+  r3d.model = root;
+}
+
+/* ---- 3D animation functions ---- */
+function _a_idle(t,p){
+  const b = 1+0.018*Math.sin(t*1.25);
+  p.bodyRig.scale.y=b; p.bodyRig.scale.x=1+(1-b)*0.35;
+  p.headRig.rotation.y=0.07*Math.sin(t*0.62);
+  p.headRig.rotation.z=0.022*Math.sin(t*0.50);
+  p.tailRig.rotation.z=0.13*Math.sin(t*1.15);
+  p.eyeLM.scale.setScalar(1); p.eyeRM.scale.setScalar(1);
+  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
+}
+function _a_happy(t,p,model){
+  const bounce = Math.abs(Math.sin(t*3.6))*0.15;
+  model.position.y = -0.62+bounce;
+  p.eyeLM.scale.y=0.30; p.eyeRM.scale.y=0.30;
+  p.tailRig.rotation.z=0.58*Math.sin(t*7.2);
+  p.headRig.rotation.z=0.08*Math.sin(t*3.6);
+  p.mBlushL.opacity=0.48; p.mBlushR.opacity=0.48;
+}
+function _a_listening(t,p){
+  p.headRig.rotation.z=0.24*Math.sin(t*0.38+1.0);
+  p.eyeLM.scale.setScalar(1.22); p.eyeRM.scale.setScalar(1.22);
+  p.earL.rotation.z= -0.14*Math.sin(t*0.42);
+  p.earR.rotation.z=  0.14*Math.sin(t*0.42);
+  p.bodyRig.scale.y=1+0.010*Math.sin(t*1.25);
+  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
+}
+function _a_speaking(t,p){
+  p.neckPiv.rotation.x=0.05*Math.sin(t*2.15);
+  const bc = t%3.3; const blink = (bc>2.9)?0.06:1;
+  p.eyeLM.scale.y=blink; p.eyeRM.scale.y=blink;
+  p.bodyRig.scale.y=1+0.013*Math.sin(t*2.15);
+  p.tailRig.rotation.z=0.20*Math.sin(t*2.7);
+  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
+}
+function _a_gentle(t,p){
+  p.bodyRig.scale.y=1+0.013*Math.sin(t*0.82);
+  p.neckPiv.rotation.x=0.09;
+  p.headRig.rotation.z=0.028*Math.sin(t*0.54);
+  p.eyeLM.scale.y=0.62; p.eyeRM.scale.y=0.62;
+  p.tailRig.rotation.z=0.07*Math.sin(t*0.78);
+  p.mBlushL.opacity=0.20; p.mBlushR.opacity=0.20;
+}
+function _a_walking(t,p,model){
+  const cy=t*3.4;
+  p.legs[0].rotation.x= 0.38*Math.sin(cy);
+  p.legs[1].rotation.x= 0.38*Math.sin(cy+Math.PI);
+  p.legs[2].rotation.x= 0.38*Math.sin(cy+Math.PI);
+  p.legs[3].rotation.x= 0.38*Math.sin(cy);
+  model.position.y=-0.62+0.028*Math.abs(Math.sin(cy*0.5));
+  p.headRig.rotation.x=0.04*Math.sin(cy);
+  p.tailRig.rotation.z=0.18*Math.sin(cy*0.72);
+  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
+}
+
+const _animFns = { idle:_a_idle, happy:_a_happy, listening:_a_listening, speaking:_a_speaking, gentle:_a_gentle, walking:_a_walking };
+
+function set3DGlow(on){
+  if(r3d.glowLight) r3d.glowLight.intensity = on ? 2.2 : 0;
+}
+
+let _lastTs = null;
+function loop3D(ts){
+  r3d.rafId = requestAnimationFrame(loop3D);
+  const dt = _lastTs ? Math.min((ts-_lastTs)/1000,0.05) : 0.016;
+  _lastTs = ts;
+  r3d.clock += dt;
+  const t = r3d.clock;
+
+  if(!r3d.renderer){ return; }
+  if(!r3d.model){ r3d.renderer.render(r3d.scene, r3d.camera); return; }
+
+  const ud = r3d.model.userData;
+
+  /* walk-in / walk-away */
+  if(ud.walkX !== null){
+    r3d.model.position.x += (ud.walkX - r3d.model.position.x)*0.055;
+    if(Math.abs(r3d.model.position.x - ud.walkX)<0.03){
+      r3d.model.position.x = ud.walkX;
+      const atCenter = (Math.abs(ud.walkX)<0.1);
+      ud.walkX = null;
+      if(atCenter && !ud.fadeOut) ud.anim='idle';
+    }
+  }
+
+  /* fade out on farewell */
+  if(ud.fadeOut){
+    ud.opacity = Math.max(0, ud.opacity - 0.006);
+    r3d.model.traverse(obj=>{
+      if(obj.isMesh && obj.material){
+        obj.material.transparent=true;
+        obj.material.opacity = ud.opacity;
+      }
+    });
+  }
+
+  /* ── Procedural high-poly model ── */
+  const p = ud.parts;
+  p.bodyRig.scale.set(1,1,1);
+  p.neckPiv.rotation.set(0,0,0);
+  p.headRig.rotation.set(0,0,0);
+  p.tailRig.rotation.set(0,0,0);
+  p.earL.rotation.set(0,0,0);
+  p.earR.rotation.set(0,0,0);
+  p.legs.forEach(l=>l.rotation.set(0,0,0));
+  if(!ud.fadeOut) r3d.model.position.y=-0.62;
+
+  const fn = _animFns[ud.anim] || _a_idle;
+  fn(t, p, r3d.model);
+  r3d.model.rotation.y = 0.06*Math.sin(t*0.28);
+
+  r3d.renderer.render(r3d.scene, r3d.camera);
 }
 </script>
 </body>
