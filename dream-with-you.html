@@ -509,15 +509,14 @@
     font-family:'Sarabun',sans-serif;transition:all .2s;
   }
   .carousel-tab.active{background:#c9a8e0;color:#fff;border-color:#c9a8e0;}
-  .carousel-track-wrap{overflow:hidden;position:relative;}
-  .carousel-track{
-    display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;
-    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
+  .carousel-viewport{overflow:hidden;position:relative;width:100%;}
+  .carousel-strip{
+    display:flex;gap:10px;
+    transition:transform 0.5s cubic-bezier(.4,0,.2,1);
+    will-change:transform;
   }
-  .carousel-track::-webkit-scrollbar{display:none;}
   .carousel-card{
-    flex:0 0 110px;scroll-snap-align:start;border-radius:14px;
+    flex:0 0 110px;border-radius:14px;
     overflow:hidden;background:#1a1a1a;position:relative;
     box-shadow:0 2px 8px rgba(0,0,0,.25);
   }
@@ -533,6 +532,9 @@
   .carousel-card .card-years{color:#ccc;font-size:.65rem;font-family:'Sarabun',sans-serif;}
   .carousel-panel{display:none;}
   .carousel-panel.active{display:block;}
+  .carousel-dots{display:flex;justify-content:center;gap:5px;margin-top:8px;}
+  .carousel-dot{width:6px;height:6px;border-radius:50%;background:#d4b8e8;border:none;padding:0;cursor:pointer;transition:background .2s;}
+  .carousel-dot.active{background:#9b7ebd;}
 
   /* ---- Pet expressions & action states ---- */
   .pet-mouth{
@@ -1068,28 +1070,34 @@
           <button class="carousel-tab" onclick="switchCarousel('cats',this)">🐱 แมว</button>
         </div>
         <div class="carousel-panel active" id="carousel-dogs">
-          <div class="carousel-track">
-            <div class="carousel-card"><img src="images/dogs/dog_1_gangfu.jpg" alt="กังฟู"><div class="card-info"><div class="card-name">กังฟู</div><div class="card-years">2015–2022</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_2_pasoke.jpg" alt="ป่าโซค"><div class="card-info"><div class="card-name">ป่าโซค</div><div class="card-years">2017–2024</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_3_nungning.jpg" alt="Nungning"><div class="card-info"><div class="card-name">Nungning</div><div class="card-years">2015–2022</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_4_ban.jpg" alt="บาน."><div class="card-info"><div class="card-name">บาน.</div><div class="card-years">2012–2024</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_5_hengheng.jpg" alt="เฮง เฮง"><div class="card-info"><div class="card-name">เฮง เฮง</div><div class="card-years">2011–2024</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_6_namtan.jpg" alt="น้ำตาล"><div class="card-info"><div class="card-name">น้ำตาล</div><div class="card-years">2023–2023</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_7_baobao.jpg" alt="BaoBao"><div class="card-info"><div class="card-name">BaoBao</div><div class="card-years">2019–2024</div></div></div>
-            <div class="carousel-card"><img src="images/dogs/dog_8_chanom.jpg" alt="Chanom. ชานม"><div class="card-info"><div class="card-name">Chanom. ชานม</div><div class="card-years">2023–2024</div></div></div>
+          <div class="carousel-viewport">
+            <div class="carousel-strip" id="strip-dogs">
+              <div class="carousel-card"><img src="images/dogs/dog_1_gangfu.jpg" alt="กังฟู"><div class="card-info"><div class="card-name">กังฟู</div><div class="card-years">2015–2022</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_2_pasoke.jpg" alt="ป่าโซค"><div class="card-info"><div class="card-name">ป่าโซค</div><div class="card-years">2017–2024</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_3_nungning.jpg" alt="Nungning"><div class="card-info"><div class="card-name">Nungning</div><div class="card-years">2015–2022</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_4_ban.jpg" alt="บาน."><div class="card-info"><div class="card-name">บาน.</div><div class="card-years">2012–2024</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_5_hengheng.jpg" alt="เฮง เฮง"><div class="card-info"><div class="card-name">เฮง เฮง</div><div class="card-years">2011–2024</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_6_namtan.jpg" alt="น้ำตาล"><div class="card-info"><div class="card-name">น้ำตาล</div><div class="card-years">2023–2023</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_7_baobao.jpg" alt="BaoBao"><div class="card-info"><div class="card-name">BaoBao</div><div class="card-years">2019–2024</div></div></div>
+              <div class="carousel-card"><img src="images/dogs/dog_8_chanom.jpg" alt="Chanom. ชานม"><div class="card-info"><div class="card-name">Chanom. ชานม</div><div class="card-years">2023–2024</div></div></div>
+            </div>
           </div>
+          <div class="carousel-dots" id="dots-dogs"></div>
         </div>
         <div class="carousel-panel" id="carousel-cats">
-          <div class="carousel-track">
-            <div class="carousel-card"><img src="images/cats/cat_1_catherine.jpg" alt="แคทเทอริน"><div class="card-info"><div class="card-name">แคทเทอริน</div><div class="card-years">1995–2018</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_2_panda.jpg" alt="Panda"><div class="card-info"><div class="card-name">Panda 🐾</div><div class="card-years">2021–2021</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_3_shogun.jpg" alt="Shogun"><div class="card-info"><div class="card-name">Shogun</div><div class="card-years">2019–2020</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_4_jingjo.jpg" alt="Jing Jo"><div class="card-info"><div class="card-name">Jing Jo</div><div class="card-years">2014–2024</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_5_khaophat.jpg" alt="ข้าวผัด"><div class="card-info"><div class="card-name">ข้าวผัด</div><div class="card-years">2021–2023</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_6_biewbiew.jpg" alt="บิ้วบิ้ว"><div class="card-info"><div class="card-name">บิ้วบิ้ว</div><div class="card-years">2022–2024</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_7_boonlan.jpg" alt="บุญลัน"><div class="card-info"><div class="card-name">บุญลัน</div><div class="card-years">2008–2020</div></div></div>
-            <div class="carousel-card"><img src="images/cats/cat_8_mumu.jpg" alt="มูมู่ จอมซน"><div class="card-info"><div class="card-name">มูมู่ จอมซน</div><div class="card-years">2025–2025</div></div></div>
+          <div class="carousel-viewport">
+            <div class="carousel-strip" id="strip-cats">
+              <div class="carousel-card"><img src="images/cats/cat_1_catherine.jpg" alt="แคทเทอริน"><div class="card-info"><div class="card-name">แคทเทอริน</div><div class="card-years">1995–2018</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_2_panda.jpg" alt="Panda"><div class="card-info"><div class="card-name">Panda 🐾</div><div class="card-years">2021–2021</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_3_shogun.jpg" alt="Shogun"><div class="card-info"><div class="card-name">Shogun</div><div class="card-years">2019–2020</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_4_jingjo.jpg" alt="Jing Jo"><div class="card-info"><div class="card-name">Jing Jo</div><div class="card-years">2014–2024</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_5_khaophat.jpg" alt="ข้าวผัด"><div class="card-info"><div class="card-name">ข้าวผัด</div><div class="card-years">2021–2023</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_6_biewbiew.jpg" alt="บิ้วบิ้ว"><div class="card-info"><div class="card-name">บิ้วบิ้ว</div><div class="card-years">2022–2024</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_7_boonlan.jpg" alt="บุญลัน"><div class="card-info"><div class="card-name">บุญลัน</div><div class="card-years">2008–2020</div></div></div>
+              <div class="carousel-card"><img src="images/cats/cat_8_mumu.jpg" alt="มูมู่ จอมซน"><div class="card-info"><div class="card-name">มูมู่ จอมซน</div><div class="card-years">2025–2025</div></div></div>
+            </div>
           </div>
+          <div class="carousel-dots" id="dots-cats"></div>
         </div>
       </div>
       <a class="btn-secondary" href="https://www.sharesouls.com/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;text-align:center;padding:12px;margin-top:12px;border-radius:20px;">บันทึกความฝันนี้ไว้ใน SHARESOULS</a>
@@ -1573,14 +1581,67 @@ function finishDream(){
   document.getElementById('endMemory').textContent = state.memory;
   document.getElementById('endMessage').textContent = state.promiseText || 'จะเก็บความทรงจำนี้ไว้ตลอดไป';
   goTo('screen-end');
+  setTimeout(initAllCarousels, 100);
 }
 
 /* ---------------- memorial carousel ---------------- */
-function switchCarousel(type, btn){
-  document.querySelectorAll('.carousel-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.carousel-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('carousel-'+type).classList.add('active');
+const carouselState = {
+  dogs: { idx: 0, timer: null },
+  cats: { idx: 0, timer: null },
+};
+const CARD_W = 110, CARD_GAP = 10, VISIBLE = 3;
+const STEP = CARD_W + CARD_GAP;
+
+function initCarousel(type) {
+  const strip = document.getElementById('strip-' + type);
+  const dotsEl = document.getElementById('dots-' + type);
+  if (!strip || !dotsEl) return;
+  const total = strip.children.length;
+  const maxIdx = total - VISIBLE;
+  dotsEl.innerHTML = '';
+  for (let i = 0; i <= maxIdx; i++) {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(type, i);
+    dotsEl.appendChild(d);
+  }
+  startAuto(type);
+}
+
+function goTo(type, idx) {
+  const strip = document.getElementById('strip-' + type);
+  if (!strip) return;
+  const total = strip.children.length;
+  const maxIdx = total - VISIBLE;
+  idx = Math.max(0, Math.min(idx, maxIdx));
+  carouselState[type].idx = idx;
+  strip.style.transform = `translateX(-${idx * STEP}px)`;
+  const dots = document.querySelectorAll('#dots-' + type + ' .carousel-dot');
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+function startAuto(type) {
+  if (carouselState[type].timer) clearInterval(carouselState[type].timer);
+  carouselState[type].timer = setInterval(() => {
+    const strip = document.getElementById('strip-' + type);
+    if (!strip) return;
+    const maxIdx = strip.children.length - VISIBLE;
+    const next = carouselState[type].idx >= maxIdx ? 0 : carouselState[type].idx + 1;
+    goTo(type, next);
+  }, 2500);
+}
+
+function switchCarousel(type, btn) {
+  document.querySelectorAll('.carousel-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.carousel-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('carousel-' + type).classList.add('active');
   btn.classList.add('active');
+  startAuto(type);
+}
+
+function initAllCarousels() {
+  initCarousel('dogs');
+  initCarousel('cats');
 }
 
 /* ---------------- restart ---------------- */
