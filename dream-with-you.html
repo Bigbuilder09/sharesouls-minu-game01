@@ -1602,13 +1602,13 @@ function initCarousel(type) {
   for (let i = 0; i <= maxIdx; i++) {
     const d = document.createElement('button');
     d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => goTo(type, i);
+    d.onclick = () => carouselGoTo(type, i);
     dotsEl.appendChild(d);
   }
   startAuto(type);
 }
 
-function goTo(type, idx) {
+function carouselGoTo(type, idx) {
   const strip = document.getElementById('strip-' + type);
   if (!strip) return;
   const total = strip.children.length;
@@ -1627,7 +1627,7 @@ function startAuto(type) {
     if (!strip) return;
     const maxIdx = strip.children.length - VISIBLE;
     const next = carouselState[type].idx >= maxIdx ? 0 : carouselState[type].idx + 1;
-    goTo(type, next);
+    carouselGoTo(type, next);
   }, 2500);
 }
 
