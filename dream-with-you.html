@@ -1585,7 +1585,13 @@ function finishDream(){
   document.getElementById('endMemory').textContent = state.memory;
   document.getElementById('endMessage').textContent = state.promiseText || 'จะเก็บความทรงจำนี้ไว้ตลอดไป';
   goTo('screen-end');
-  setTimeout(initAllCarousels, 100);
+  setTimeout(() => {
+    initAllCarousels();
+    if(state.petType === 'cat'){
+      const catTab = document.querySelector('.carousel-tab:last-child');
+      if(catTab) switchCarousel('cats', catTab);
+    }
+  }, 100);
 }
 
 /* ---------------- memorial carousel ---------------- */
