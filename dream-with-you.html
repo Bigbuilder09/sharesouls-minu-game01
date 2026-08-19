@@ -990,6 +990,8 @@
 
 
 <audio id="bgm" loop src="อ้อมกอดในความทรงจำ.mp3"></audio>
+<audio id="sfxCat" src="cat sound.mp3" preload="auto"></audio>
+<audio id="sfxDog" src="puppy-barks.wav" preload="auto"></audio>
 <button id="muteBtn" onclick="toggleMute()" title="เปิด/ปิดเสียง">🎵</button>
 
 <div id="app">
@@ -1488,6 +1490,7 @@ function setPetState(stateName){
 }
 
 function chooseInteraction(kind){
+  playPetSound();
   state.interactKind = kind;
   if(kind === 'hug'){
     state.interactResultText = `คุณก้าวเข้าไปก่อนที่จะคิด — อ้อมแขนรัดเขาไว้แน่น กลิ่นที่จำได้ดี ความรู้สึกอบอุ่นที่คุ้นเคย ยังอยู่ครบทุกอณู ${state.petName} ซุกหัวแน่นลงกับคอเธอ ลมหายใจของเขาจังหวะสม่ำเสมอ อุ่นเหมือนเมื่อก่อน เหมือนทุกอย่างไม่เคยเปลี่ยน`;
@@ -1529,6 +1532,7 @@ function sendPromise(){
 }
 
 function chooseFarewell(kind){
+  playPetSound();
   const petWrap = document.getElementById('petWrap');
   if(kind === 'pat'){
     state.farewellResultText = `ขนของเขานุ่มกว่าที่ทรงจำเคยเก็บไว้ เธอลูบช้า ๆ ตั้งแต่หัวจรดหลัง ครั้งเดียว แต่ยาวนานพอที่จะจดจำไว้ตลอดไป ${state.petName} หลับตาลงรับสัมผัสนั้น ลมหายใจเขาออกมาเป็นเสียงเบา ๆ — ไม่ใช่ความโศก แต่เป็นความพอใจ ก่อนที่เขาจะค่อย ๆ หันหลัง แล้วเดินออกไปสู่แสงสีทองที่รออยู่`;
@@ -1680,6 +1684,34 @@ function restart(){
   onQueueDone = null;
   sending = false;
   goTo('screen-title');
+}
+
+/* ---------------- pet sound fx ---------------- */
+function playPetSound(){
+  if(bgm.muted) return;
+  const sfx = state.petType === 'cat' ? document.getElementById('sfxCat')
+            : state.petType === 'dog' ? document.getElementById('sfxDog')
+            : null;
+  if(!sfx) return;
+  sfx.volume = 0.72;
+  if(state.petType === 'dog'){
+    const playMiddle = () => {
+      const dur = sfx.duration;
+      if(dur && isFinite(dur)){
+        sfx.currentTime = dur / 3;
+        sfx.play().catch(()=>{});
+        setTimeout(() => { sfx.pause(); }, (dur / 3) * 1000);
+      } else {
+        sfx.currentTime = 0;
+        sfx.play().catch(()=>{});
+      }
+    };
+    if(sfx.readyState >= 1){ playMiddle(); }
+    else { sfx.addEventListener('loadedmetadata', playMiddle, { once:true }); }
+  } else {
+    sfx.currentTime = 0;
+    sfx.play().catch(()=>{});
+  }
 }
 
 /* ---------------- bg music ---------------- */
