@@ -992,6 +992,7 @@
 <audio id="bgm" loop src="อ้อมกอดในความทรงจำ.mp3"></audio>
 <audio id="sfxCat" src="cat sound.mp3" preload="auto"></audio>
 <audio id="sfxDog" src="puppy-barks.wav" preload="auto"></audio>
+<audio id="sfxWalk" src="walking-on-leaves.mp3" preload="auto"></audio>
 <button id="muteBtn" onclick="toggleMute()" title="เปิด/ปิดเสียง">🎵</button>
 
 <div id="app">
@@ -1324,7 +1325,7 @@ function renderStory(){
     petWrap.classList.remove('visible','glow-strong');
     box.innerHTML = `
       <p class="dialogue-text">ลมหายใจของเธอเริ่มช้าลง... ความคิดค่อย ๆ เลือนหาย และก่อนที่จะรู้ตัว — ที่นี่ก็ปรากฏขึ้น อากาศอุ่นนวล กลิ่นคุ้นเคย ราวกับวันที่ทุกอย่างยังเหมือนเดิม</p>
-      <button class="btn-continue" onclick="nextStep('arrived')">ต่อไป</button>
+      <button class="btn-continue" onclick="introNext()">ต่อไป</button>
     `;
   }
 
@@ -1689,6 +1690,18 @@ function restart(){
   onQueueDone = null;
   sending = false;
   goTo('screen-title');
+}
+
+/* ---------------- walk sfx (intro → arrived) ---------------- */
+function introNext(){
+  const sfx = document.getElementById('sfxWalk');
+  if(sfx && !bgm.muted){
+    sfx.currentTime = 0;
+    sfx.volume = 0.28;
+    sfx.play().catch(()=>{});
+    setTimeout(()=>{ sfx.pause(); sfx.currentTime=0; }, 3000);
+  }
+  nextStep('arrived');
 }
 
 /* ---------------- pet sound fx ---------------- */
