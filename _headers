@@ -1,0 +1,32 @@
+# HTML - revalidate ทุกครั้งเพื่อให้ update ใหม่ถึง user เสมอ
+/dream-with-you.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# รูปภาพ - cache 1 ปี (ไม่เปลี่ยนบ่อย)
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/moji/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# เสียง - cache 1 ปี
+/*.mp3
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.wav
+  Cache-Control: public, max-age=31536000, immutable
