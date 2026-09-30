@@ -6,13 +6,23 @@
 <title>ในฝันที่มีเธอ</title>
 <meta property="og:title" content="ในฝันที่มีเธอ">
 <meta property="og:description" content="เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน">
-<meta property="og:image" content="preview.png">
+<meta name="description" content="เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน">
+<meta name="theme-color" content="#EDE1F7">
+<meta property="og:url" content="https://sharesouls-minu-game01.pages.dev/dream-with-you">
+<meta property="og:site_name" content="SHARESOULS">
+<meta property="og:locale" content="th_TH">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://sharesouls-minu-game01.pages.dev/preview.png">
+<meta property="og:image:alt" content="ในฝันที่มีเธอ — เกมสั้น ๆ สำหรับคนที่คิดถึงสัตว์เลี้ยง">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="preview.png">
+<meta name="twitter:title" content="ในฝันที่มีเธอ">
+<meta name="twitter:description" content="เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน">
+<meta name="twitter:image" content="https://sharesouls-minu-game01.pages.dev/preview.png">
+<link rel="canonical" href="https://sharesouls-minu-game01.pages.dev/dream-with-you">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
 <style>
   :root{
     --lavender-100:#F1E9F8;
@@ -46,6 +56,7 @@
     position:relative;
     width:100%;
     height:100vh;
+    height:100dvh;
     min-height:560px;
     background:linear-gradient(180deg, #EDE1F7 0%, #F7DDE9 45%, #FFEEDD 100%);
   }
@@ -98,6 +109,9 @@
     padding:24px;
     overflow-y:auto;
   }
+
+  /* auto margins keep tall cards centred but scrollable from the top (align-items:center clips overflow) */
+  .screen > .glass-card{ margin:auto; }
 
   .screen.active{
     opacity:1;
@@ -408,15 +422,15 @@
     box-shadow:inset 3px 0 8px rgba(244,199,126,0.12);
   }
 
+  /* one choice per row: avoids the lopsided 2+1 wrap and fits longer English labels */
   .choice-row{
     display:flex;
-    flex-wrap:wrap;
+    flex-direction:column;
     gap:8px;
   }
 
   .choice-btn{
-    flex:1 1 auto;
-    min-width:100px;
+    width:100%;
     padding:11px 10px;
     font-size:.88rem;
     font-weight:500;
@@ -427,7 +441,7 @@
   .choice-btn:hover{
     background:var(--lavender-200);
     color:var(--plum-900);
-    transform:scale(1.04);
+    transform:scale(1.015);
     box-shadow:0 4px 14px rgba(107,85,120,0.15);
     border-color:rgba(244,199,126,0.5);
   }
@@ -457,6 +471,8 @@
     white-space:nowrap;
     transition:transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
   }
+  .enter-hint{ font-size:.72rem; color:var(--ink-soft); text-align:right; margin-top:-6px; }
+  @media (hover:none){ .enter-hint{ display:none; } }
   .send-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(224,168,92,0.45); }
   .send-btn:focus-visible{ outline:3px solid var(--gold-600); outline-offset:2px; }
 
@@ -505,6 +521,17 @@
     line-height:1.8;
     margin-top:10px;
   }
+
+  .stats-line{ text-align:center; font-size:.82rem; color:#9b7ebd; margin:4px 0 0; line-height:1.6; }
+
+  /* ---- Text flow: even line lengths for short centred text, no lonely last word in paragraphs ---- */
+  h1.title, h2, .subtitle .sub-line, .ending-quote, .closing-line, .stats-line{ text-wrap:balance; }
+  .dialogue-text, .pet-speech, .bubble-user, .memory-card .msg{ text-wrap:pretty; }
+  .subtitle .sub-line, .ending-quote .sub-line{ display:block; }
+  .subtitle .sub-line + .sub-line{ margin-top:6px; }
+  /* the pet's lines are the heart of the story: give them the full width of the box */
+  .pet-speech{ align-self:stretch; max-width:none; }
+  .choice-btn, .btn-primary, .btn-secondary, .btn-continue, .send-btn{ text-wrap:balance; }
 
   /* ---- Memorial carousel ---- */
   .carousel-section{margin-top:18px;}
@@ -910,6 +937,33 @@
     filter:drop-shadow(0 0 18px rgba(244,199,126,0.9));
   }
 
+  /* ---- Rabbit sprite (32PixelBunny, 32×32 frames shown at 5× = 160px) ---- */
+  .pet-rabbit-sprite{
+    position:absolute;
+    bottom:0; left:0;
+    width:160px; height:160px;
+    background-repeat:no-repeat;
+    background-position:0 0;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    image-rendering:-moz-crisp-edges;
+  }
+  .rabbit-anim-idle{ background-image:url('bunny/idle.png'); background-size:1280px 160px; animation:rabbit_idle 1s steps(8) infinite; }
+  @keyframes rabbit_idle{ from{ background-position-x:0; } to{ background-position-x:-1280px; } }
+  .rabbit-anim-run{ background-image:url('bunny/run.png'); background-size:800px 160px; animation:rabbit_run 0.5s steps(5) infinite; }
+  @keyframes rabbit_run{ from{ background-position-x:0; } to{ background-position-x:-800px; } }
+  .rabbit-anim-sit{ background-image:url('bunny/sit.png'); background-size:480px 160px; animation:rabbit_sit 1.2s steps(3) infinite; }
+  @keyframes rabbit_sit{ from{ background-position-x:0; } to{ background-position-x:-480px; } }
+  .rabbit-anim-lie{ background-image:url('bunny/lie.png'); background-size:320px 160px; animation:rabbit_lie 1.6s steps(2) infinite; }
+  @keyframes rabbit_lie{ from{ background-position-x:0; } to{ background-position-x:-320px; } }
+  .rabbit-anim-sleep{ background-image:url('bunny/sleep.png'); background-size:320px 160px; animation:rabbit_sleep 1.8s steps(2) infinite; }
+  @keyframes rabbit_sleep{ from{ background-position-x:0; } to{ background-position-x:-320px; } }
+  .rabbit-anim-jump{ background-image:url('bunny/jump.png'); background-size:2880px 160px; animation:rabbit_jump 1.6s steps(18) infinite; }
+  @keyframes rabbit_jump{ from{ background-position-x:0; } to{ background-position-x:-2880px; } }
+  .pet-wrap.glow-strong .pet-rabbit-sprite{
+    filter:drop-shadow(0 0 18px rgba(244,199,126,0.9));
+  }
+
   @media (prefers-reduced-motion: reduce){
     .star, .firefly{ animation:none !important; }
     .screen, .pet-wrap{ transition:none !important; }
@@ -920,54 +974,35 @@
     h1.title{ font-size:1.9rem; }
   }
 
-  /* ---- Photo upload ---- */
-  .photo-upload-area{ margin-top:4px; }
-  .photo-drop{
-    border:2px dashed var(--lavender-200);
-    border-radius:14px;
-    padding:18px 12px;
-    text-align:center;
-    background:rgba(255,255,255,0.5);
-    cursor:pointer;
-    transition:border-color .2s, background .2s;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:5px;
-    min-height:72px;
-    justify-content:center;
+  #langBtn{
+    position:fixed; top:14px; right:60px; z-index:99;
+    height:36px; min-width:44px; padding:0 12px;
+    border-radius:18px; border:1px solid var(--glass-border);
+    background:var(--glass); backdrop-filter:blur(10px);
+    font-family:'Sarabun',sans-serif; font-size:.82rem; font-weight:600; color:var(--plum-700);
+    cursor:pointer; box-shadow:0 2px 10px rgba(107,85,120,0.12); transition:background .2s;
   }
-  .photo-drop:hover{ border-color:var(--gold-400); background:rgba(255,255,255,0.7); }
-  .photo-drop span{ font-size:.92rem; color:var(--plum-700); }
-  .photo-drop small{ font-size:.74rem; color:var(--ink-soft); }
-  .photo-thumb{
-    width:100%; height:90px; object-fit:cover;
-    border-radius:12px; display:block;
+  /* big language picker on the title screen: labels stay in their own language */
+  .lang-switch{
+    display:flex; gap:4px; padding:4px; margin:0 auto;
+    width:100%; max-width:280px;
+    background:var(--lavender-200); border:1px solid var(--lavender-200); border-radius:999px;
   }
-  .photo-badge{
-    display:inline-block;
-    margin-top:6px;
-    background:linear-gradient(135deg,var(--gold-400),var(--gold-600));
-    color:var(--white-soft);
-    font-size:.74rem;
-    font-weight:600;
-    padding:3px 10px;
-    border-radius:20px;
+  .lang-opt{
+    flex:1; padding:10px 8px; border:none; border-radius:999px; background:transparent; cursor:pointer;
+    font-family:'Sarabun',sans-serif; font-size:.95rem; font-weight:500; color:var(--plum-700);
+    transition:background .2s, color .2s, box-shadow .2s;
   }
+  .lang-opt:hover{ background:var(--lavender-100); }
+  .lang-opt.active{
+    background:var(--white-soft); color:var(--plum-900); font-weight:600;
+    box-shadow:0 2px 10px rgba(107,85,120,0.18);
+  }
+  .lang-opt:focus-visible{ outline:3px solid var(--gold-600); outline-offset:2px; }
+  .lang-switch + .btn-primary{ margin-top:18px; }
 
-  /* ---- 3D container ---- */
-  #pet3DContainer{
-    position:relative;
-    width:200px; height:220px;
-    margin-bottom:-30px;
-    z-index:4;
-    display:none;
-  }
-  #pet3DContainer canvas{
-    width:100% !important;
-    height:100% !important;
-    border-radius:10px;
-  }
+  #langBtn:hover{ background:var(--lavender-100); }
+  #langBtn:focus-visible, #muteBtn:focus-visible{ outline:3px solid var(--gold-600); outline-offset:2px; }
 
   #muteBtn{
     position:fixed;
@@ -995,11 +1030,13 @@
 <body>
 
 
-<audio id="bgm" loop src="อ้อมกอดในความทรงจำ.mp3"></audio>
+<audio id="bgm" loop src="bgm.mp3" preload="auto"></audio>
 <audio id="sfxCat" src="cat sound.mp3" preload="auto"></audio>
-<audio id="sfxDog" src="puppy-barks.wav" preload="auto"></audio>
-<audio id="sfxWalk" src="walking-on-leaves.mp3" preload="auto"></audio>
-<button id="muteBtn" onclick="toggleMute()" title="เปิด/ปิดเสียง">🎵</button>
+<audio id="sfxDog" src="puppy-barks.mp3" preload="auto"></audio>
+<audio id="sfxRabbit" src="rabbit.mp3" preload="auto"></audio>
+<audio id="sfxWalk" src="leaves.mp3" preload="auto"></audio>
+<button id="langBtn" onclick="toggleLang()" title="Switch to English" data-i18n="langBtn" data-i18n-title="langTitle">EN</button>
+<button id="muteBtn" onclick="toggleMute()" title="เปิด/ปิดเสียง" data-i18n-title="muteTitle">🎵</button>
 
 <div id="app">
   <div class="stars" id="starField"></div>
@@ -1008,36 +1045,40 @@
   <!-- SCREEN 1: TITLE -->
   <section id="screen-title" class="screen active">
     <div class="glass-card">
-      <h1 class="title">ในฝันที่มีเธอ</h1>
-      <p class="subtitle">เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา<br>หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน</p>
-      <button class="btn-primary" onclick="goTo('screen-setup')">เริ่มต้น</button>
+      <h1 class="title" data-i18n="title">ในฝันที่มีเธอ</h1>
+      <p class="subtitle" data-i18n-html="subtitle"><span class="sub-line">เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา</span><span class="sub-line">หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน</span></p>
+      <div class="lang-switch" role="group" aria-label="Language / ภาษา">
+        <button type="button" class="lang-opt" data-lang="th" onclick="setLang('th')" lang="th">ภาษาไทย</button>
+        <button type="button" class="lang-opt" data-lang="en" onclick="setLang('en')" lang="en">English</button>
+      </div>
+      <button class="btn-primary" onclick="goTo('screen-setup')" data-i18n="start">เริ่มต้น</button>
     </div>
   </section>
 
   <!-- SCREEN 2: SETUP -->
   <section id="screen-setup" class="screen">
     <div class="glass-card">
-      <h2>ก่อนจะหลับตา...</h2>
-      <label for="petName">น้องชื่ออะไร</label>
-      <input type="text" id="petName" maxlength="20" placeholder="เช่น โมจิ">
+      <h2 data-i18n="setupTitle">ก่อนจะหลับตา...</h2>
+      <label for="petName" data-i18n="nameLabel">น้องชื่ออะไร</label>
+      <input type="text" id="petName" maxlength="20" placeholder="เช่น โมจิ" data-i18n-ph="namePh" oninput="this.style.borderColor=''" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('petMemory').focus();}">
 
-      <label>น้องเป็น</label>
+      <label data-i18n="typeLabel">น้องเป็น</label>
       <div class="type-select" id="typeSelect">
-        <button type="button" class="type-btn selected" data-type="dog">หมา</button>
-        <button type="button" class="type-btn" data-type="cat">แมว</button>
+        <button type="button" class="type-btn selected" data-type="dog" data-i18n="dog">หมา</button>
+        <button type="button" class="type-btn" data-type="cat" data-i18n="cat">แมว</button>
+        <button type="button" class="type-btn" data-type="rabbit" data-i18n="rabbit">กระต่าย</button>
       </div>
 
-      <label for="petMemory">ความทรงจำที่คิดถึงที่สุด</label>
-      <textarea id="petMemory" maxlength="200" placeholder="เช่น ตอนที่เขานอนขดตัวอยู่ข้าง ๆ ทุกคืน"></textarea>
+      <label for="petMemory" data-i18n="memLabel">ความทรงจำที่คิดถึงที่สุด</label>
+      <textarea id="petMemory" maxlength="200" placeholder="เช่น ตอนที่เขานอนขดตัวอยู่ข้าง ๆ ทุกคืน" data-i18n-ph="memPh"></textarea>
 
-      <button class="btn-primary" id="beginBtn" onclick="beginDream()">หลับตา แล้วฝันถึงเขา</button>
+      <button class="btn-primary" id="beginBtn" onclick="beginDream()" data-i18n="beginBtn">หลับตา แล้วฝันถึงเขา</button>
     </div>
   </section>
 
   <!-- SCREEN 3: STORY (dream stage) -->
   <section id="screen-story" class="screen">
     <div class="stage">
-      <div id="pet3DContainer"></div>
       <div class="pet-wrap pet-dog" id="petWrap">
         <div class="tail"></div>
         <div class="ear l"><div class="inner-ear"></div></div>
@@ -1061,21 +1102,22 @@
   <!-- SCREEN 4: END -->
   <section id="screen-end" class="screen">
     <div class="glass-card">
-      <h2>เมื่อตื่นขึ้นมา</h2>
+      <h2 data-i18n="endTitle">เมื่อตื่นขึ้นมา</h2>
       <div class="memory-card">
-        <div class="label">ความทรงจำที่คิดถึงที่สุด</div>
+        <div class="label" data-i18n="endMemLabel">ความทรงจำที่คิดถึงที่สุด</div>
         <p class="msg" id="endMemory"></p>
-        <div class="label">สิ่งที่เธอสัญญาไว้กับ <span id="endPetName"></span></div>
+        <div class="label" id="endPromiseLabel"></div>
         <p class="msg" id="endMessage"></p>
       </div>
-      <p class="ending-quote">"เพราะความรัก... ไม่เคยเลือนหายไปไหน"</p>
-      <p class="closing-line">บันทึกความทรงจำของสัตว์เลี้ยงที่คุณรักได้ใน SHARESOULS</p>
-      <p style="text-align:center;font-size:0.82em;color:#9b7ebd;margin-top:4px;margin-bottom:0;">สุสานสัตว์เลี้ยงที่มีผู้ใช้กว่า 10,000 คน และอนุสรณ์มากกว่า 5,000 ความทรงจำ</p>
+      <p class="ending-quote" data-i18n-html="endQuote">"เพราะความรัก... ไม่เคยเลือนหายไปไหน"</p>
+      <p class="closing-line" data-i18n="closing">บันทึกความทรงจำของสัตว์เลี้ยงที่คุณรักได้ใน SHARESOULS</p>
+      <p class="stats-line" data-i18n="stats">สุสานสัตว์เลี้ยงที่มีผู้ใช้กว่า 10,000 คน และอนุสรณ์มากกว่า 5,000 ความทรงจำ</p>
       <!-- Memorial carousel -->
       <div class="carousel-section">
         <div class="carousel-tabs">
-          <button class="carousel-tab active" onclick="switchCarousel('dogs',this)">🐕 หมา</button>
-          <button class="carousel-tab" onclick="switchCarousel('cats',this)">🐱 แมว</button>
+          <button class="carousel-tab active" data-type="dogs" onclick="switchCarousel('dogs',this)" data-i18n="tabDogs">🐕 หมา</button>
+          <button class="carousel-tab" data-type="cats" onclick="switchCarousel('cats',this)" data-i18n="tabCats">🐱 แมว</button>
+          <button class="carousel-tab" data-type="rabbits" onclick="switchCarousel('rabbits',this)" data-i18n="tabRabbits">🐰 กระต่าย</button>
         </div>
         <div class="carousel-panel active" id="carousel-dogs">
           <div class="carousel-viewport">
@@ -1107,9 +1149,24 @@
           </div>
           <div class="carousel-dots" id="dots-cats"></div>
         </div>
+        <div class="carousel-panel" id="carousel-rabbits">
+          <div class="carousel-viewport">
+            <div class="carousel-strip" id="strip-rabbits">
+              <div class="carousel-card"><img src="images/rabbits/rabbit_1_fortune.jpg" alt="ฟอร์จูน ธนัษท์ภูธเนษฐ์" loading="lazy"><div class="card-info"><div class="card-name">ฟอร์จูน ธนัษท์ภูธเนษฐ์</div><div class="card-years">2019–2022</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_2_kaprao.jpg" alt="กะเพรา" loading="lazy"><div class="card-info"><div class="card-name">กะเพรา</div><div class="card-years">2017–2022</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_3_mangkhut.jpg" alt="มังคุด เอ๋" loading="lazy"><div class="card-info"><div class="card-name">มังคุด เอ๋</div><div class="card-years">2016–2023</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_4_khaomat.jpg" alt="ข้าวมัด หวัง" loading="lazy"><div class="card-info"><div class="card-name">ข้าวมัด หวัง</div><div class="card-years">2021–2022</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_5_dew.jpg" alt="DEW" loading="lazy"><div class="card-info"><div class="card-name">DEW</div><div class="card-years">2018–2021</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_6_frungfring.jpg" alt="ฟรุ้งฟริ้ง" loading="lazy"><div class="card-info"><div class="card-name">ฟรุ้งฟริ้ง</div><div class="card-years">2014–2018</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_7_nungning.jpg" alt="หนุงหนิง โล" loading="lazy"><div class="card-info"><div class="card-name">หนุงหนิง โล</div><div class="card-years">2012–2023</div></div></div>
+              <div class="carousel-card"><img src="images/rabbits/rabbit_8_shin.jpg" alt="น้องชิน" loading="lazy"><div class="card-info"><div class="card-name">น้องชิน</div><div class="card-years">2022–2025</div></div></div>
+            </div>
+          </div>
+          <div class="carousel-dots" id="dots-rabbits"></div>
+        </div>
       </div>
-      <a class="btn-secondary" href="https://www.sharesouls.com/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;text-align:center;padding:12px;margin-top:12px;border-radius:20px;">บันทึกความฝันนี้ไว้ใน SHARESOULS</a>
-      <button class="btn-primary" onclick="restart()" style="margin-top:10px;">กลับหน้าแรก</button>
+      <a class="btn-secondary" href="https://www.sharesouls.com/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;text-align:center;padding:12px;margin-top:12px;border-radius:20px;" data-i18n="ssBtn">บันทึกความฝันนี้ไว้ใน SHARESOULS</a>
+      <button class="btn-primary" onclick="restart()" style="margin-top:10px;" data-i18n="home">กลับหน้าแรก</button>
     </div>
   </section>
 
@@ -1149,35 +1206,19 @@ const state = {
   memory:'',
   ventText:'',
   promiseText:'',
-  interactResultText:'',
-  farewellResultText:'',
   interactKind:'',
-  conversation:[],
-  photo3D: false,
-  pet3DColors: null
+  farewellKind:'',
+  conversation:[]
 };
-
-let uploadedPhotoEl = null;
 
 let storyStep = 'intro';
 
 /* ---------------- scripted story content ---------------- */
-const monologueLines = [
-  () => `${state.petName} ค่อย ๆ เดินเข้ามา แล้วใช้จมูกเล็ก ๆ แตะหลังมือเธอเบา ๆ ก่อนจะวางหัวลงบนตัก — ไม่รีบ ไม่กลัว แค่รู้ว่าตรงนี้คือที่ของเขา และเขาก็กลับมาแล้ว`,
-  () => `"เธอนะ... วันที่ดูแลฉันทุกวัน วันที่อุ้มฉันไปหาหมอ วันที่นั่งร้องไห้อยู่คนเดียวข้างกรง ฉันรู้หมดเลยนะ ฉันอยู่ตรงนั้นด้วยทุกครั้ง แค่บอกไม่ได้"`,
-  () => `"บางวันเธออาจจะนึกว่าฉันลืมเธอไปแล้ว... แต่ไม่ใช่เลย กลิ่นเธอ เสียงเรียกชื่อฉัน ความอุ่นของมือเธอ — ทุกอย่างยังอยู่กับฉัน และจะอยู่ไปเสมอ"`,
-  () => `"ที่นี่มีหญ้าเขียวให้นอนกลิ้ง แดดอุ่น ๆ ส่องมาตลอดเวลา ฉันไม่เจ็บอีกแล้ว ไม่เหนื่อยแล้ว... และฉันอยากให้เธอรู้ว่า การที่เธอปล่อยให้ฉันไป — นั่นคือสิ่งที่รักที่สุดที่เธอเคยทำเพื่อฉัน"`
-];
+const monologueLines = ["mono1", "mono2", "mono3", "mono4"].map(k => () => tn(k));
 
-const promiseIntroLines = [
-  () => `${state.petName} เงยหน้าขึ้นมองเธออย่างช้า ๆ ดวงตาคู่นั้นไม่มีคำตำหนิ ไม่มีความเจ็บปวด — มีแต่ความอ่อนโยนที่ทำให้หัวใจแน่นขึ้นมาโดยไม่รู้ตัว`,
-  () => `ก่อนที่ฝันนี้จะจบลง... มีอะไรที่เธออยากฝากไว้กับเขาไหม สัญญาที่จะทำเพื่อตัวเอง คำขอบคุณที่ยังค้างอยู่ หรือแค่คำว่า "รัก" ที่ไม่มีโอกาสได้พูด`
-];
+const promiseIntroLines = ["promiseIntro1", "promiseIntro2"].map(k => () => tn(k));
 
-const promiseReactionLines = [
-  () => `ทันทีที่เธอพูดจบ ${state.petName} หลับตาลงช้า ๆ — ไม่ใช่เพราะง่วง แต่เพราะรับเอาทุกคำที่เธอพูดไว้เต็ม ๆ แล้วเขาก็เอาหัวซุกลงในมือเธออีกครั้ง อุ่น มั่นคง ราวกับประทับตราว่า "ฉันได้ยิน และฉันเชื่อในตัวเธอ"`,
-  () => `มีบางอย่างในอก — ก้อนหนักที่แบกมาคนเดียวนานเกินไป — มันค่อย ๆ คลายออก ไม่หายไปทั้งหมด แต่เบาลง เบาพอที่จะหายใจได้เต็มปอดอีกครั้ง`
-];
+const promiseReactionLines = ["reaction1", "reaction2"].map(k => () => tn(k));
 
 let lineQueue = [];
 let onQueueDone = null;
@@ -1197,7 +1238,7 @@ function revealNextLine(){
     return;
   }
   const line = lineQueue.shift();
-  state.conversation.push({ role:'assistant', content: line() });
+  state.conversation.push({ role:'assistant', content: line });
   storyStep = 'scripted_reveal';
   renderStory();
 }
@@ -1243,30 +1284,9 @@ function beginDream(){
     return;
   }
   state.petName = nameVal;
-  state.memory  = memVal || 'อยู่ข้าง ๆ กันทุกวัน';
+  state.memory  = memVal;
 
   const petWrap = document.getElementById('petWrap');
-  const c3D = document.getElementById('pet3DContainer');
-
-  state.photo3D = !!(uploadedPhotoEl);
-
-  if(state.photo3D){
-    petWrap.style.display = 'none';
-    c3D.style.display = 'block';
-    state.pet3DColors = extractPetColors(uploadedPhotoEl);
-    storyStep = 'intro';
-    goTo('screen-story');
-    requestAnimationFrame(()=>{
-      init3D();
-      build3DPet(state.petType, state.pet3DColors);
-      loop3D(0);
-      renderStory();
-    });
-    return;
-  }
-
-  // CSS pet path (original)
-  c3D.style.display = 'none';
   petWrap.style.display = '';
   petWrap.className = 'pet-wrap pet-' + state.petType;
   petWrap.style.opacity = '';
@@ -1274,6 +1294,8 @@ function beginDream(){
   petWrap.classList.remove('visible', 'glow-strong');
   petWrap.innerHTML = state.petType === 'cat'
     ? `<div class="pet-cat-sprite cat-anim-idle" id="catSprite"></div>`
+    : state.petType === 'rabbit'
+    ? `<div class="pet-rabbit-sprite rabbit-anim-idle" id="rabbitSprite"></div>`
     : state.petType === 'dog'
     ? `<div class="pet-dog-sprite dog-anim-idle" id="dogSprite"></div>`
     : `
@@ -1309,16 +1331,15 @@ function renderStory(){
     farewell_choice:'gentle', farewell_result:'gentle'
   };
   setPetState(_sm[storyStep] || null);
-  if(state.photo3D && storyStep !== 'interact_result') set3DGlow(false);
 
-  if(!state.photo3D && state.petType === 'cat'){
+  if(state.petType === 'cat'){
     const _sprite = document.getElementById('catSprite');
     if(_sprite){
       if(storyStep === 'farewell_intro')   _sprite.className = 'pet-cat-sprite cat-anim-walk';
       else if(storyStep === 'farewell_choice') _sprite.className = 'pet-cat-sprite cat-anim-idle';
     }
   }
-  if(!state.photo3D && state.petType === 'dog'){
+  if(state.petType === 'dog'){
     const _sprite = document.getElementById('dogSprite');
     if(_sprite){
       if(storyStep === 'farewell_intro')        _sprite.className = 'pet-dog-sprite dog-anim-walk';
@@ -1326,43 +1347,47 @@ function renderStory(){
       else if(storyStep === 'wake')             _sprite.className = 'pet-dog-sprite dog-anim-away';
     }
   }
+  if(state.petType === 'rabbit'){
+    const _sprite = document.getElementById('rabbitSprite');
+    if(_sprite){
+      if(storyStep === 'farewell_intro')        _sprite.className = 'pet-rabbit-sprite rabbit-anim-idle';
+      else if(storyStep === 'farewell_choice')  _sprite.className = 'pet-rabbit-sprite rabbit-anim-sit';
+      else if(storyStep === 'wake')             _sprite.className = 'pet-rabbit-sprite rabbit-anim-run';
+    }
+  }
 
   if(storyStep === 'intro'){
     petWrap.classList.remove('visible','glow-strong');
     box.innerHTML = `
-      <p class="dialogue-text">ลมหายใจของเธอเริ่มช้าลง... ความคิดค่อย ๆ เลือนหาย และก่อนที่จะรู้ตัว — ที่นี่ก็ปรากฏขึ้น อากาศอุ่นนวล กลิ่นคุ้นเคย ราวกับวันที่ทุกอย่างยังเหมือนเดิม</p>
-      <button class="btn-continue" onclick="introNext()">ต่อไป</button>
+      <p class="dialogue-text">${escapeHtml(tn('intro'))}</p>
+      <button class="btn-continue" onclick="introNext()">${t('next')}</button>
     `;
   }
 
   else if(storyStep === 'arrived'){
     box.innerHTML = `
-      <p class="dialogue-text">เสียงก้าวเบา ๆ ดังขึ้นจากข้างหลัง... ความรู้สึกที่คุ้นเคยโชยมาก่อนที่ตาจะมองเห็น หัวใจรู้อยู่แล้วว่าเป็นใคร — มันคือ <b>${escapeHtml(state.petName)}</b></p>
-      <button class="btn-continue" onclick="nextStep('interact')">ต่อไป</button>
+      <p class="dialogue-text">${tNameHtml('arrived')}</p>
+      <button class="btn-continue" onclick="nextStep('interact')">${t('next')}</button>
     `;
-    if(state.photo3D){
-      if(r3d.model){ r3d.model.position.x=3.5; r3d.model.userData.walkX=0; r3d.model.userData.anim='walking'; }
-    } else {
-      requestAnimationFrame(()=> petWrap.classList.add('visible'));
-    }
+    requestAnimationFrame(()=> petWrap.classList.add('visible'));
   }
 
   else if(storyStep === 'interact'){
     box.innerHTML = `
-      <p class="dialogue-text">มีหลายสิ่งที่อยากจะทำ อยากจะพูด... แต่ตอนนี้ขอเลือกสักอย่างก่อนได้ไหม</p>
+      <p class="dialogue-text">${escapeHtml(tn('interactQ'))}</p>
       <div class="choice-row">
-        <button class="choice-btn" onclick="chooseInteraction('hug')">เข้าไปกอด</button>
-        <button class="choice-btn" onclick="chooseInteraction('sit')">นั่งลงข้าง ๆ เงียบ ๆ</button>
-        <button class="choice-btn" onclick="chooseInteraction('smile')">ยิ้มให้เขา</button>
+        <button class="choice-btn" onclick="chooseInteraction('hug')">${t('hug')}</button>
+        <button class="choice-btn" onclick="chooseInteraction('sit')">${t('sit')}</button>
+        <button class="choice-btn" onclick="chooseInteraction('smile')">${t('smile')}</button>
       </div>
     `;
   }
 
   else if(storyStep === 'interact_result'){
-    if(state.photo3D){ set3DGlow(true); } else { petWrap.classList.add('glow-strong'); }
+    petWrap.classList.add('glow-strong');
     box.innerHTML = `
-      <p class="dialogue-text">${escapeHtml(state.interactResultText)}</p>
-      <button class="btn-continue" onclick="startVent()">ต่อไป</button>
+      <p class="dialogue-text">${escapeHtml(interactText())}</p>
+      <button class="btn-continue" onclick="startVent()">${t('next')}</button>
     `;
   }
 
@@ -1370,24 +1395,24 @@ function renderStory(){
     box.innerHTML = `
       ${renderLastMessage()}
       <div class="talk-row">
-        <textarea id="talkInput" maxlength="220" placeholder="บอกเขาหน่อยได้เลย..."></textarea>
-        <button class="send-btn" onclick="sendVent()">ส่ง</button>
+        <textarea id="talkInput" maxlength="220" placeholder="${escapeHtml(t('ventPh'))}"></textarea>
+        <button class="send-btn" onclick="sendVent()">${t('send')}</button>
       </div>
+      <div class="enter-hint">${t('enterHint')}</div>
     `;
-    const ta = document.getElementById('talkInput');
-    if(ta) ta.focus();
+    bindEnterToSend(sendVent);
   }
 
   else if(storyStep === 'scripted_reveal'){
     const last = state.conversation[state.conversation.length - 1];
     const bubble = last
       ? (last.role === 'user'
-          ? `<p class="bubble-user">${escapeHtml(last.content)}</p>`
-          : `<p class="pet-speech">${escapeHtml(last.content)}</p>`)
+          ? `<p class="bubble-user">${escapeHtml(turnText(last))}</p>`
+          : `<p class="pet-speech">${escapeHtml(turnText(last))}</p>`)
       : '';
     box.innerHTML = `
       <div class="chat-log">${bubble}</div>
-      <button class="btn-continue" onclick="revealNextLine()">ต่อไป</button>
+      <button class="btn-continue" onclick="revealNextLine()">${t('next')}</button>
     `;
   }
 
@@ -1395,45 +1420,58 @@ function renderStory(){
     box.innerHTML = `
       ${renderLastMessage()}
       <div class="talk-row">
-        <textarea id="talkInput" maxlength="220" placeholder="พูดได้เลย เขารอฟังอยู่..."></textarea>
-        <button class="send-btn" onclick="sendPromise()">ส่ง</button>
+        <textarea id="talkInput" maxlength="220" placeholder="${escapeHtml(t('promisePh'))}"></textarea>
+        <button class="send-btn" onclick="sendPromise()">${t('send')}</button>
       </div>
+      <div class="enter-hint">${t('enterHint')}</div>
     `;
-    const ta = document.getElementById('talkInput');
-    if(ta) ta.focus();
+    bindEnterToSend(sendPromise);
   }
 
   else if(storyStep === 'farewell_intro'){
     box.innerHTML = `
-      <p class="dialogue-text">ขอบฟ้าเริ่มสว่างขึ้นเป็นสีทองอ่อน ๆ ${escapeHtml(state.petName)} ลุกขึ้นช้า ๆ แล้วหันมามองเธออีกครั้ง... แววตาเขาบอกว่าเขาต้องไปแล้ว แต่ก่อนนั้น เขาเดินมาเอาหัวถูกับมือเธอเบา ๆ เป็นครั้งสุดท้าย</p>
-      <button class="btn-continue" onclick="nextStep('farewell_choice')">ต่อไป</button>
+      <p class="dialogue-text">${escapeHtml(tn('farewellIntro'))}</p>
+      <button class="btn-continue" onclick="nextStep('farewell_choice')">${t('next')}</button>
     `;
   }
 
   else if(storyStep === 'farewell_choice'){
     box.innerHTML = `
-      <p class="dialogue-text">ในโมเมนต์นี้ที่เวลาเกือบหมด... เธออยากทำอะไร</p>
+      <p class="dialogue-text">${escapeHtml(tn('farewellQ'))}</p>
       <div class="choice-row">
-        <button class="choice-btn" onclick="chooseFarewell('pat')">ลูบหัวเขาเบา ๆ</button>
-        <button class="choice-btn" onclick="chooseFarewell('whisper')">กระซิบคำว่า "รักนะ"</button>
-        <button class="choice-btn" onclick="chooseFarewell('watch')">มองตามเขาไปเงียบ ๆ</button>
+        <button class="choice-btn" onclick="chooseFarewell('pat')">${t('pat')}</button>
+        <button class="choice-btn" onclick="chooseFarewell('whisper')">${escapeHtml(t('whisper'))}</button>
+        <button class="choice-btn" onclick="chooseFarewell('watch')">${t('watch')}</button>
       </div>
     `;
   }
 
   else if(storyStep === 'farewell_result'){
     box.innerHTML = `
-      <p class="dialogue-text">${escapeHtml(state.farewellResultText)}</p>
-      <button class="btn-continue" onclick="nextStep('wake')">ต่อไป</button>
+      <p class="dialogue-text">${escapeHtml(farewellText())}</p>
+      <button class="btn-continue" onclick="nextStep('wake')">${t('next')}</button>
     `;
   }
 
   else if(storyStep === 'wake'){
     box.innerHTML = `
-      <p class="dialogue-text">เพดานห้องค่อย ๆ ชัดขึ้น แสงเช้าอ่อน ๆ ลอดเข้ามาทางหน้าต่าง... ความฝันจาง แต่สิ่งที่รู้สึกได้ข้างในยังอยู่ครบ ในทุกครั้งที่นึกถึงเขา เขาก็ยังอยู่ตรงนั้น</p>
-      <button class="btn-continue" onclick="finishDream()">ตื่นขึ้นมา</button>
+      <p class="dialogue-text">${escapeHtml(tn('wake'))}</p>
+      <button class="btn-continue" onclick="finishDream()">${t('wakeBtn')}</button>
     `;
   }
+}
+
+function bindEnterToSend(fn){
+  const ta = document.getElementById('talkInput');
+  if(!ta) return;
+  ta.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){
+      e.preventDefault();
+      fn();
+    }
+  });
+  // don't pop the keyboard over the pet on small phones
+  if(window.matchMedia('(hover:hover)').matches) ta.focus();
 }
 
 function nextStep(step){
@@ -1444,17 +1482,17 @@ function nextStep(step){
 function renderChatLog(){
   return state.conversation.map(turn => {
     if(turn.role === 'user'){
-      return `<p class="bubble-user">${escapeHtml(turn.content)}</p>`;
+      return `<p class="bubble-user">${escapeHtml(turnText(turn))}</p>`;
     }
-    return `<p class="pet-speech">${escapeHtml(turn.content)}</p>`;
+    return `<p class="pet-speech">${escapeHtml(turnText(turn))}</p>`;
   }).join('');
 }
 
 function renderLastMessage(){
   if(!state.conversation.length) return '';
   const last = state.conversation[state.conversation.length - 1];
-  if(last.role === 'user') return `<p class="bubble-user">${escapeHtml(last.content)}</p>`;
-  return `<p class="pet-speech">${escapeHtml(last.content)}</p>`;
+  if(last.role === 'user') return `<p class="bubble-user">${escapeHtml(turnText(last))}</p>`;
+  return `<p class="pet-speech">${escapeHtml(turnText(last))}</p>`;
 }
 
 const _catAnimMap = {
@@ -1462,6 +1500,15 @@ const _catAnimMap = {
   listening:'cat-anim-walk',
   speaking:'cat-anim-walk',
   gentle:'cat-anim-idle'
+};
+
+// rabbits "binky" (jump and twist mid-air) when they're happy
+const _rabbitAnimMap = {
+  idle:'rabbit-anim-idle',
+  happy:'rabbit-anim-jump',
+  listening:'rabbit-anim-sit',
+  speaking:'rabbit-anim-idle',
+  gentle:'rabbit-anim-lie'
 };
 
 const _dogAnimMap = {
@@ -1473,20 +1520,15 @@ const _dogAnimMap = {
 };
 
 function setPetState(stateName){
-  if(state.photo3D){
-    const _3dMap = { idle:'idle', happy:'happy', listening:'listening', speaking:'speaking', gentle:'gentle' };
-    // farewell phases get walking in 3D
-    const _3dAnim = (storyStep==='farewell_intro' || storyStep==='farewell_choice') ? 'walking'
-                  : (_3dMap[stateName] || 'idle');
-    if(r3d.model) r3d.model.userData.anim = _3dAnim;
-    return;
-  }
   const pw = document.getElementById('petWrap');
   if(!pw) return;
   pw.classList.remove('pet-idle','pet-happy','pet-listening','pet-speaking','pet-gentle');
   if(state.petType === 'cat'){
     const sprite = document.getElementById('catSprite');
     if(sprite) sprite.className = 'pet-cat-sprite ' + (_catAnimMap[stateName] || 'cat-anim-idle');
+  } else if(state.petType === 'rabbit'){
+    const sprite = document.getElementById('rabbitSprite');
+    if(sprite) sprite.className = 'pet-rabbit-sprite ' + (_rabbitAnimMap[stateName] || 'rabbit-anim-idle');
   } else if(state.petType === 'dog'){
     const sprite = document.getElementById('dogSprite');
     if(sprite) sprite.className = 'pet-dog-sprite ' + (_dogAnimMap[stateName] || 'dog-anim-sit');
@@ -1498,19 +1540,12 @@ function setPetState(stateName){
 function chooseInteraction(kind){
   playPetSound();
   state.interactKind = kind;
-  if(kind === 'hug'){
-    state.interactResultText = `คุณก้าวเข้าไปก่อนที่จะคิด — อ้อมแขนรัดเขาไว้แน่น กลิ่นที่จำได้ดี ความรู้สึกอบอุ่นที่คุ้นเคย ยังอยู่ครบทุกอณู ${state.petName} ซุกหัวแน่นลงกับคอเธอ ลมหายใจของเขาจังหวะสม่ำเสมอ อุ่นเหมือนเมื่อก่อน เหมือนทุกอย่างไม่เคยเปลี่ยน`;
-  } else if(kind === 'sit'){
-    state.interactResultText = `คุณนั่งลงช้า ๆ บนพื้นหญ้า และภายในไม่กี่วินาที ${state.petName} ก็เดินมาพิงข้างเธอ น้ำหนักคุ้นเคยนั้นกดเบา ๆ ที่แขน ไออุ่นจากตัวเขาซึมเข้ามา เสียงลมหายใจของเขาช้าและลึก ทำให้ลมหายใจของเธอเริ่มช้าลงตาม — แค่นั่งเงียบ ๆ ด้วยกัน ไม่มีอะไรต้องพูด`;
-  } else {
-    state.interactResultText = `พอสายตาเธอเจอตาเขา รอยยิ้มก็ขึ้นมาเองโดยไม่ตั้งใจ ${state.petName} หยุดนิ่งชั่ววินาที — แล้วหางก็เริ่มแกว่ง ช้า แล้วเร็วขึ้น เร็วขึ้น ตาคู่นั้นเป็นประกายแบบที่จำได้ดี แบบที่บอกว่าเห็นเธอแล้ว รู้จักเธอ และดีใจที่ได้เจอ`;
-  }
   storyStep = 'interact_result';
   renderStory();
 }
 
 function startVent(){
-  state.conversation.push({ role:'assistant', content: `ตั้งแต่ฉันไม่อยู่... เธอเป็นยังไงบ้างนะ ฉันคิดถึงเธอตลอดเลย อยากรู้จังว่าตอนนี้ข้างในใจเธอมันเป็นยังไง` });
+  state.conversation.push({ role:'assistant', content: () => t('ventPrompt') });
   storyStep = 'vent_input';
   renderStory();
 }
@@ -1540,27 +1575,13 @@ function sendPromise(){
 function chooseFarewell(kind){
   playPetSound();
   const petWrap = document.getElementById('petWrap');
-  if(kind === 'pat'){
-    state.farewellResultText = `ขนของเขานุ่มกว่าที่ทรงจำเคยเก็บไว้ เธอลูบช้า ๆ ตั้งแต่หัวจรดหลัง ครั้งเดียว แต่ยาวนานพอที่จะจดจำไว้ตลอดไป ${state.petName} หลับตาลงรับสัมผัสนั้น ลมหายใจเขาออกมาเป็นเสียงเบา ๆ — ไม่ใช่ความโศก แต่เป็นความพอใจ ก่อนที่เขาจะค่อย ๆ หันหลัง แล้วเดินออกไปสู่แสงสีทองที่รออยู่`;
-  } else if(kind === 'whisper'){
-    state.farewellResultText = `คำนั้นแทบไม่มีเสียง แต่มันออกมาจากที่ลึกที่สุด ${state.petName} หยุดก้าวที่สาม... หันกลับมาเอียงหัวมองเธออีกครั้ง หูกระดิก ดวงตาอ่อนนุ่ม — แล้วเขาก็พยักหน้าเบา ๆ ราวกับจะบอกว่า "ฉันรู้มาตลอด" ก่อนที่ร่างเล็ก ๆ จะวิ่งออกไปสู่แสง เบา สบาย ไม่มีภาระใด`;
-  } else {
-    state.farewellResultText = `เธอไม่ได้เรียก ไม่ได้ก้าวตาม แค่ยืนมองตามเขาไปจนถึงขอบทุ่ง แผ่นหลังเล็ก ๆ ที่วิ่งออกไปนั้นสบายใจ ขาทั้งสี่เหยาะ ๆ อย่างอิสระ ไม่มีอาการเจ็บปวดอีกแล้ว ไม่มีความกลัว — มีแต่ความสุขที่บริสุทธิ์ ที่เธอให้เขาได้ก่อนที่จะตื่น`;
-  }
-  if(state.photo3D){
-    if(r3d.model){
-      r3d.model.userData.walkX = -5;
-      r3d.model.userData.anim = 'walking';
-      r3d.model.userData.fadeOut = true;
-    }
-  } else {
-    petWrap.style.transition = 'opacity 2.5s ease';
-    petWrap.style.opacity = '0.15';
-  }
+  state.farewellKind = kind;
+  petWrap.style.transition = 'opacity 2.5s ease';
+  petWrap.style.opacity = '0.15';
   storyStep = 'farewell_result';
   renderStory();
 
-  if(!state.photo3D && state.petType === 'cat'){
+  if(state.petType === 'cat'){
     const sprite = document.getElementById('catSprite');
     if(sprite){
       const catFarewellAnims = {
@@ -1571,7 +1592,18 @@ function chooseFarewell(kind){
       sprite.className = 'pet-cat-sprite ' + (catFarewellAnims[kind] || 'cat-anim-idle');
     }
   }
-  if(!state.photo3D && state.petType === 'dog'){
+  if(state.petType === 'rabbit'){
+    const sprite = document.getElementById('rabbitSprite');
+    if(sprite){
+      const rabbitFarewellAnims = {
+        pat:     'rabbit-anim-sleep',
+        whisper: 'rabbit-anim-jump',
+        watch:   'rabbit-anim-run'
+      };
+      sprite.className = 'pet-rabbit-sprite ' + (rabbitFarewellAnims[kind] || 'rabbit-anim-idle');
+    }
+  }
+  if(state.petType === 'dog'){
     const sprite = document.getElementById('dogSprite');
     if(sprite){
       const dogFarewellAnims = {
@@ -1586,17 +1618,13 @@ function chooseFarewell(kind){
 
 /* ---------------- finish / end screen ---------------- */
 function finishDream(){
-  if(state.photo3D && r3d.rafId){ cancelAnimationFrame(r3d.rafId); r3d.rafId=null; }
-  document.getElementById('endPetName').textContent = state.petName;
-  document.getElementById('endMemory').textContent = state.memory;
-  document.getElementById('endMessage').textContent = state.promiseText || 'จะเก็บความทรงจำนี้ไว้ตลอดไป';
+  fillEndScreen();
   goTo('screen-end');
   setTimeout(() => {
     initAllCarousels();
-    if(state.petType === 'cat'){
-      const catTab = document.querySelector('.carousel-tab:last-child');
-      if(catTab) switchCarousel('cats', catTab);
-    }
+    const type = state.petType === 'cat' ? 'cats' : state.petType === 'rabbit' ? 'rabbits' : 'dogs';
+    const tab = document.querySelector(`.carousel-tab[data-type="${type}"]`);
+    if(tab) switchCarousel(type, tab);
   }, 100);
 }
 
@@ -1604,6 +1632,7 @@ function finishDream(){
 const carouselState = {
   dogs: { idx: 0, timer: null },
   cats: { idx: 0, timer: null },
+  rabbits: { idx: 0, timer: null },
 };
 const CARD_W = 110, CARD_GAP = 10, VISIBLE = 3;
 const STEP = CARD_W + CARD_GAP;
@@ -1621,7 +1650,11 @@ function initCarousel(type) {
     d.onclick = () => carouselGoTo(type, i);
     dotsEl.appendChild(d);
   }
-  startAuto(type);
+  carouselGoTo(type, 0);
+}
+
+function stopAllCarousels(){
+  Object.values(carouselState).forEach(c=>{ if(c.timer){ clearInterval(c.timer); c.timer=null; } });
 }
 
 function carouselGoTo(type, idx) {
@@ -1652,29 +1685,22 @@ function switchCarousel(type, btn) {
   document.querySelectorAll('.carousel-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('carousel-' + type).classList.add('active');
   btn.classList.add('active');
+  stopAllCarousels();
   startAuto(type);
 }
 
 function initAllCarousels() {
   initCarousel('dogs');
   initCarousel('cats');
+  initCarousel('rabbits');
 }
+
 
 /* ---------------- restart ---------------- */
 function restart(){
-  // Cleanup 3D
-  if(r3d.rafId){ cancelAnimationFrame(r3d.rafId); r3d.rafId=null; }
-  if(r3d.model && r3d.scene){ r3d.scene.remove(r3d.model); r3d.model=null; }
-  if(r3d.renderer){
-    const c=document.getElementById('pet3DContainer');
-    if(c) c.innerHTML='';
-    r3d.renderer=null; r3d.scene=null; r3d.camera=null;
-  }
-  state.photo3D=false; state.pet3DColors=null;
-  uploadedPhotoEl=null;
-  document.getElementById('pet3DContainer').style.display='none';
-
   document.getElementById('petName').value='';
+  document.getElementById('petName').style.borderColor='';
+  stopAllCarousels();
   document.getElementById('petMemory').value='';
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('selected'));
   document.querySelector('.type-btn[data-type="dog"]').classList.add('selected');
@@ -1683,8 +1709,8 @@ function restart(){
   state.memory = '';
   state.ventText='';
   state.promiseText='';
-  state.interactResultText='';
-  state.farewellResultText='';
+  state.interactKind='';
+  state.farewellKind='';
   state.conversation=[];
   storyStep = 'intro';
   const petWrap = document.getElementById('petWrap');
@@ -1715,9 +1741,11 @@ function playPetSound(){
   if(bgm.muted) return;
   const sfx = state.petType === 'cat' ? document.getElementById('sfxCat')
             : state.petType === 'dog' ? document.getElementById('sfxDog')
+            : state.petType === 'rabbit' ? document.getElementById('sfxRabbit')
             : null;
   if(!sfx) return;
-  sfx.volume = 0.72;
+  // the rabbit clip is mastered much louder than the others
+  sfx.volume = state.petType === 'rabbit' ? 0.5 : 0.72;
   if(state.petType === 'dog'){
     const playMiddle = () => {
       const dur = sfx.duration;
@@ -1761,6 +1789,219 @@ bgm.play().then(()=>{ bgmStarted = true; }).catch(()=>{
   );
 });
 
+/* ---------------- i18n (Thai / English) ---------------- */
+const I18N = { th: {
+ "mono1": "{name} ค่อย ๆ เดินเข้ามา แล้วใช้จมูกเล็ก ๆ แตะหลังมือเธอเบา ๆ ก่อนจะวางหัวลงบนตัก — ไม่รีบ ไม่กลัว แค่รู้ว่าตรงนี้คือที่ของเขา และเขาก็กลับมาแล้ว",
+ "mono2": "\"เธอนะ... วันที่ดูแลฉันทุกวัน วันที่อุ้มฉันไปหาหมอ วันที่นั่งร้องไห้อยู่คนเดียวข้างกรง ฉันรู้หมดเลยนะ ฉันอยู่ตรงนั้นด้วยทุกครั้ง แค่บอกไม่ได้\"",
+ "mono3": "\"บางวันเธออาจจะนึกว่าฉันลืมเธอไปแล้ว... แต่ไม่ใช่เลย กลิ่นเธอ เสียงเรียกชื่อฉัน ความอุ่นของมือเธอ — ทุกอย่างยังอยู่กับฉัน และจะอยู่ไปเสมอ\"",
+ "mono4": "\"ที่นี่มีหญ้าเขียวให้นอนกลิ้ง แดดอุ่น ๆ ส่องมาตลอดเวลา ฉันไม่เจ็บอีกแล้ว ไม่เหนื่อยแล้ว... และฉันอยากให้เธอรู้ว่า การที่เธอปล่อยให้ฉันไป — นั่นคือสิ่งที่รักที่สุดที่เธอเคยทำเพื่อฉัน\"",
+ "promiseIntro1": "{name} เงยหน้าขึ้นมองเธออย่างช้า ๆ ดวงตาคู่นั้นไม่มีคำตำหนิ ไม่มีความเจ็บปวด — มีแต่ความอ่อนโยนที่ทำให้หัวใจแน่นขึ้นมาโดยไม่รู้ตัว",
+ "promiseIntro2": "ก่อนที่ฝันนี้จะจบลง... มีอะไรที่เธออยากฝากไว้กับเขาไหม สัญญาที่จะทำเพื่อตัวเอง คำขอบคุณที่ยังค้างอยู่ หรือแค่คำว่า \"รัก\" ที่ไม่มีโอกาสได้พูด",
+ "reaction1": "ทันทีที่เธอพูดจบ {name} หลับตาลงช้า ๆ — ไม่ใช่เพราะง่วง แต่เพราะรับเอาทุกคำที่เธอพูดไว้เต็ม ๆ แล้วเขาก็เอาหัวซุกลงในมือเธออีกครั้ง อุ่น มั่นคง ราวกับประทับตราว่า \"ฉันได้ยิน และฉันเชื่อในตัวเธอ\"",
+ "reaction2": "มีบางอย่างในอก — ก้อนหนักที่แบกมาคนเดียวนานเกินไป — มันค่อย ๆ คลายออก ไม่หายไปทั้งหมด แต่เบาลง เบาพอที่จะหายใจได้เต็มปอดอีกครั้ง",
+ "i_hug": "คุณก้าวเข้าไปก่อนที่จะคิด — อ้อมแขนรัดเขาไว้แน่น กลิ่นที่จำได้ดี ความรู้สึกอบอุ่นที่คุ้นเคย ยังอยู่ครบทุกอณู {name} ซุกหัวแน่นลงกับคอเธอ ลมหายใจของเขาจังหวะสม่ำเสมอ อุ่นเหมือนเมื่อก่อน เหมือนทุกอย่างไม่เคยเปลี่ยน",
+ "i_sitRabbit": "คุณนั่งลงช้า ๆ บนพื้นหญ้า และภายในไม่กี่วินาที {name} ก็กระโดดเหยาะ ๆ มาหมอบลงข้างเธอ ตัวกลม ๆ นุ่ม ๆ แนบอยู่กับขา จมูกเล็ก ๆ ขยับฟุดฟิดช้าลงเรื่อย ๆ จนนิ่ง — ท่าที่เขาจะทำก็ต่อเมื่อรู้สึกปลอดภัยที่สุดเท่านั้น แค่นั่งเงียบ ๆ ด้วยกัน ไม่มีอะไรต้องพูด",
+ "i_sit": "คุณนั่งลงช้า ๆ บนพื้นหญ้า และภายในไม่กี่วินาที {name} ก็เดินมาพิงข้างเธอ น้ำหนักคุ้นเคยนั้นกดเบา ๆ ที่แขน ไออุ่นจากตัวเขาซึมเข้ามา เสียงลมหายใจของเขาช้าและลึก ทำให้ลมหายใจของเธอเริ่มช้าลงตาม — แค่นั่งเงียบ ๆ ด้วยกัน ไม่มีอะไรต้องพูด",
+ "i_smileRabbit": "พอสายตาเธอเจอตาเขา รอยยิ้มก็ขึ้นมาเองโดยไม่ตั้งใจ {name} หยุดนิ่งชั่ววินาที หูยาว ๆ ตั้งขึ้น จมูกขยับฟุดฟิด — แล้วเขาก็กระโดดตัวลอย บิดตัวกลางอากาศ ท่าเดียวกับที่เคยทำทุกครั้งตอนดีใจสุด ๆ เหมือนจะบอกว่าเห็นเธอแล้ว รู้จักเธอ และดีใจที่ได้เจอ",
+ "i_smile": "พอสายตาเธอเจอตาเขา รอยยิ้มก็ขึ้นมาเองโดยไม่ตั้งใจ {name} หยุดนิ่งชั่ววินาที — แล้วหางก็เริ่มแกว่ง ช้า แล้วเร็วขึ้น เร็วขึ้น ตาคู่นั้นเป็นประกายแบบที่จำได้ดี แบบที่บอกว่าเห็นเธอแล้ว รู้จักเธอ และดีใจที่ได้เจอ",
+ "f_pat": "ขนของเขานุ่มกว่าที่ทรงจำเคยเก็บไว้ เธอลูบช้า ๆ ตั้งแต่หัวจรดหลัง ครั้งเดียว แต่ยาวนานพอที่จะจดจำไว้ตลอดไป {name} หลับตาลงรับสัมผัสนั้น ลมหายใจเขาออกมาเป็นเสียงเบา ๆ — ไม่ใช่ความโศก แต่เป็นความพอใจ ก่อนที่เขาจะค่อย ๆ หันหลัง แล้วเดินออกไปสู่แสงสีทองที่รออยู่",
+ "f_whisperRabbit": "คำนั้นแทบไม่มีเสียง แต่มันออกมาจากที่ลึกที่สุด {name} หยุดกระโดด... หันกลับมามองเธออีกครั้ง หูยาว ๆ ตั้งขึ้นฟัง จมูกขยับเบา ๆ — แล้วเขาก็กระโดดตัวลอยอีกครั้ง ราวกับจะบอกว่า \"ฉันรู้มาตลอด\" ก่อนที่ร่างเล็ก ๆ จะกระโดดออกไปสู่แสง เบา สบาย ไม่มีภาระใด",
+ "f_whisper": "คำนั้นแทบไม่มีเสียง แต่มันออกมาจากที่ลึกที่สุด {name} หยุดก้าวที่สาม... หันกลับมาเอียงหัวมองเธออีกครั้ง หูกระดิก ดวงตาอ่อนนุ่ม — แล้วเขาก็พยักหน้าเบา ๆ ราวกับจะบอกว่า \"ฉันรู้มาตลอด\" ก่อนที่ร่างเล็ก ๆ จะวิ่งออกไปสู่แสง เบา สบาย ไม่มีภาระใด",
+ "f_watchRabbit": "เธอไม่ได้เรียก ไม่ได้ก้าวตาม แค่ยืนมองตามเขาไปจนถึงขอบทุ่ง ร่างเล็ก ๆ กระโดดเหยาะ ๆ ไปบนหญ้าอย่างอิสระ หูยาว ๆ พลิ้วไปตามจังหวะ ไม่มีอาการเจ็บปวดอีกแล้ว ไม่มีความกลัว — มีแต่ความสุขที่บริสุทธิ์ ที่เธอให้เขาได้ก่อนที่จะตื่น",
+ "f_watch": "เธอไม่ได้เรียก ไม่ได้ก้าวตาม แค่ยืนมองตามเขาไปจนถึงขอบทุ่ง แผ่นหลังเล็ก ๆ ที่วิ่งออกไปนั้นสบายใจ ขาทั้งสี่เหยาะ ๆ อย่างอิสระ ไม่มีอาการเจ็บปวดอีกแล้ว ไม่มีความกลัว — มีแต่ความสุขที่บริสุทธิ์ ที่เธอให้เขาได้ก่อนที่จะตื่น",
+ "ventPrompt": "ตั้งแต่ฉันไม่อยู่... เธอเป็นยังไงบ้างนะ ฉันคิดถึงเธอตลอดเลย อยากรู้จังว่าตอนนี้ข้างในใจเธอมันเป็นยังไง",
+ "intro": "ลมหายใจของเธอเริ่มช้าลง... ความคิดค่อย ๆ เลือนหาย และก่อนที่จะรู้ตัว — ที่นี่ก็ปรากฏขึ้น อากาศอุ่นนวล กลิ่นคุ้นเคย ราวกับวันที่ทุกอย่างยังเหมือนเดิม",
+ "arrived": "เสียงก้าวเบา ๆ ดังขึ้นจากข้างหลัง... ความรู้สึกที่คุ้นเคยโชยมาก่อนที่ตาจะมองเห็น หัวใจรู้อยู่แล้วว่าเป็นใคร — มันคือ <b>{name}</b>",
+ "interactQ": "มีหลายสิ่งที่อยากจะทำ อยากจะพูด... แต่ตอนนี้ขอเลือกสักอย่างก่อนได้ไหม",
+ "farewellIntro": "ขอบฟ้าเริ่มสว่างขึ้นเป็นสีทองอ่อน ๆ {name} ลุกขึ้นช้า ๆ แล้วหันมามองเธออีกครั้ง... แววตาเขาบอกว่าเขาต้องไปแล้ว แต่ก่อนนั้น เขาเดินมาเอาหัวถูกับมือเธอเบา ๆ เป็นครั้งสุดท้าย",
+ "farewellQ": "ในโมเมนต์นี้ที่เวลาเกือบหมด... เธออยากทำอะไร",
+ "wake": "เพดานห้องค่อย ๆ ชัดขึ้น แสงเช้าอ่อน ๆ ลอดเข้ามาทางหน้าต่าง... ความฝันจาง แต่สิ่งที่รู้สึกได้ข้างในยังอยู่ครบ ในทุกครั้งที่นึกถึงเขา เขาก็ยังอยู่ตรงนั้น",
+ "docTitle": "ในฝันที่มีเธอ",
+ "title": "ในฝันที่มีเธอ",
+ "subtitle": "<span class='sub-line'>เกมสั้น ๆ สำหรับคืนที่คิดถึงเพื่อนตัวเล็ก ๆ ของเรา</span><span class='sub-line'>หลับตาลง แล้วได้พบกันอีกครั้งในความฝัน</span>",
+ "start": "เริ่มต้น",
+ "setupTitle": "ก่อนจะหลับตา...",
+ "nameLabel": "น้องชื่ออะไร",
+ "namePh": "เช่น โมจิ",
+ "typeLabel": "น้องเป็น",
+ "dog": "หมา",
+ "cat": "แมว",
+ "rabbit": "กระต่าย",
+ "memLabel": "ความทรงจำที่คิดถึงที่สุด",
+ "memPh": "เช่น ตอนที่เขานอนขดตัวอยู่ข้าง ๆ ทุกคืน",
+ "beginBtn": "หลับตา แล้วฝันถึงเขา",
+ "next": "ต่อไป",
+ "hug": "เข้าไปกอด",
+ "sit": "นั่งลงข้าง ๆ เงียบ ๆ",
+ "smile": "ยิ้มให้เขา",
+ "ventPh": "บอกเขาหน่อยได้เลย...",
+ "promisePh": "พูดได้เลย เขารอฟังอยู่...",
+ "send": "ส่ง",
+ "enterHint": "กด Enter เพื่อส่ง · Shift+Enter ขึ้นบรรทัดใหม่",
+ "pat": "ลูบหัวเขาเบา ๆ",
+ "whisper": "กระซิบคำว่า \"รักนะ\"",
+ "watch": "มองตามเขาไปเงียบ ๆ",
+ "wakeBtn": "ตื่นขึ้นมา",
+ "endTitle": "เมื่อตื่นขึ้นมา",
+ "endMemLabel": "ความทรงจำที่คิดถึงที่สุด",
+ "endPromiseLabel": "สิ่งที่เธอสัญญาไว้กับ {name}",
+ "endQuote": "<span class='sub-line'>\"เพราะความรัก...</span><span class='sub-line'>ไม่เคยเลือนหายไปไหน\"</span>",
+ "closing": "บันทึกความทรงจำของสัตว์เลี้ยงที่คุณรักได้ใน SHARESOULS",
+ "stats": "สุสานสัตว์เลี้ยงที่มีผู้ใช้กว่า 10,000 คน และอนุสรณ์มากกว่า 5,000 ความทรงจำ",
+ "tabDogs": "🐕 หมา",
+ "tabCats": "🐱 แมว",
+ "tabRabbits": "🐰 กระต่าย",
+ "ssBtn": "บันทึกความฝันนี้ไว้ใน SHARESOULS",
+ "home": "กลับหน้าแรก",
+ "defaultMemory": "อยู่ข้าง ๆ กันทุกวัน",
+ "defaultPromise": "จะเก็บความทรงจำนี้ไว้ตลอดไป",
+ "muteTitle": "เปิด/ปิดเสียง",
+ "langBtn": "EN",
+ "langTitle": "Switch to English"
+}, en: {
+ "docTitle": "Dream With You",
+ "title": "Dream With You",
+ "subtitle": "<span class='sub-line'>A short game for the nights you miss your little friend.</span><span class='sub-line'>Close your eyes, and meet again in a dream.</span>",
+ "start": "Begin",
+ "setupTitle": "Before you close your eyes...",
+ "nameLabel": "What was their name?",
+ "namePh": "e.g. Mochi",
+ "typeLabel": "They were a",
+ "dog": "Dog",
+ "cat": "Cat",
+ "rabbit": "Rabbit",
+ "memLabel": "The memory you miss the most",
+ "memPh": "e.g. How they curled up beside me every night",
+ "beginBtn": "Close your eyes and dream of them",
+ "next": "Next",
+ "hug": "Hug them",
+ "sit": "Sit quietly beside them",
+ "smile": "Smile at them",
+ "ventPh": "Tell them anything...",
+ "promisePh": "Go ahead, they’re listening...",
+ "send": "Send",
+ "enterHint": "Press Enter to send · Shift+Enter for a new line",
+ "pat": "Gently stroke their head",
+ "whisper": "Whisper “I love you”",
+ "watch": "Watch them go in silence",
+ "wakeBtn": "Wake up",
+ "endTitle": "When you wake up",
+ "endMemLabel": "The memory you miss the most",
+ "endPromiseLabel": "What you promised {name}",
+ "endQuote": "<span class='sub-line'>“Because love...</span><span class='sub-line'>never truly fades away.”</span>",
+ "closing": "Keep the memories of the pet you love on SHARESOULS",
+ "stats": "A pet memorial with over 10,000 users and more than 5,000 memories",
+ "tabDogs": "🐕 Dogs",
+ "tabCats": "🐱 Cats",
+ "tabRabbits": "🐰 Rabbits",
+ "ssBtn": "Save this dream on SHARESOULS",
+ "home": "Back to start",
+ "defaultMemory": "Being by each other’s side every day",
+ "defaultPromise": "I’ll keep this memory forever",
+ "muteTitle": "Sound on/off",
+ "langBtn": "ไทย",
+ "langTitle": "เปลี่ยนเป็นภาษาไทย",
+ "intro": "Your breathing slows... your thoughts drift away, and before you know it — this place appears. The air is soft and warm, the scent familiar, as if it were a day when nothing had changed yet.",
+ "arrived": "Soft footsteps sound behind you... the familiar feeling reaches you before your eyes can see. Your heart already knows who it is — it’s <b>{name}</b>",
+ "interactQ": "There are so many things you want to do, so much you want to say... but for now, could you choose just one?",
+ "i_hug": "You step forward before you can think — arms wrapped tight around them. The scent you remember, the warmth you know, every bit of it still there. {name} presses their head against your neck, breathing slow and steady, warm just like before, as if nothing had ever changed.",
+ "i_sit": "You sit down slowly on the grass, and within moments {name} comes and leans against you. That familiar weight presses gently on your arm, their warmth seeping in. Their breathing is slow and deep, and yours begins to slow along with it — just sitting together in silence, nothing that needs to be said.",
+ "i_sitRabbit": "You sit down slowly on the grass, and within moments {name} hops over and settles beside you, a soft round body pressed against your leg. Their little nose twitches slower and slower until it stills — something they only ever did when they felt completely safe. Just sitting together in silence, nothing that needs to be said.",
+ "i_smile": "When your eyes meet theirs, a smile comes all on its own. {name} freezes for a second — then their tail starts to wag, slowly, then faster and faster. Those eyes light up the way you remember, the way that says: I see you, I know you, and I’m so happy you’re here.",
+ "i_smileRabbit": "When your eyes meet theirs, a smile comes all on its own. {name} freezes for a second, long ears perking up, nose twitching — then they leap into the air with a little twist, the same happy binky they did every time they were overjoyed, as if to say: I see you, I know you, and I’m so happy you’re here.",
+ "ventPrompt": "Since I’ve been gone... how have you been? I’ve missed you the whole time. I want to know how your heart is doing right now.",
+ "mono1": "{name} walks over slowly and touches the back of your hand with a tiny nose, then rests their head on your lap — no rush, no fear, just knowing this is where they belong, and that they’re back.",
+ "mono2": "“You know... all those days you took care of me, the day you carried me to the vet, the days you sat crying alone beside me — I knew. I was there every single time. I just couldn’t tell you.”",
+ "mono3": "“Some days you might think I’ve forgotten you... but I never have. Your scent, the sound of you calling my name, the warmth of your hands — all of it is still with me, and always will be.”",
+ "mono4": "“Here there’s green grass to roll in and warm sunshine all day long. I don’t hurt anymore, I’m not tired anymore... and I want you to know that letting me go — that was the most loving thing you ever did for me.”",
+ "promiseIntro1": "{name} slowly looks up at you. There’s no blame in those eyes, no pain — only a gentleness that makes your heart tighten before you even realize it.",
+ "promiseIntro2": "Before this dream ends... is there anything you’d like to leave with them? A promise to take care of yourself, a thank-you still unsaid, or simply the word “love” you never had the chance to say.",
+ "reaction1": "As soon as you finish, {name} slowly closes their eyes — not from sleepiness, but to take in every word you said. Then they nuzzle into your hand once more, warm and steady, as if sealing it: “I heard you, and I believe in you.”",
+ "reaction2": "Something in your chest — a heavy weight you’ve carried alone for far too long — slowly begins to loosen. It doesn’t disappear completely, but it’s lighter. Light enough to breathe deeply again.",
+ "farewellIntro": "The horizon begins to glow a soft gold. {name} rises slowly and turns to look at you once more... their eyes say it’s time to go. But first, they come and rub their head gently against your hand, one last time.",
+ "farewellQ": "In this moment, with time almost gone... what do you want to do?",
+ "f_pat": "Their fur is softer than memory kept it. You stroke slowly from head to back — just once, but long enough to remember forever. {name} closes their eyes to the touch and lets out a soft breath — not sorrow, but contentment — before slowly turning and walking toward the golden light waiting ahead.",
+ "f_whisper": "The words barely make a sound, but they come from the deepest place. {name} stops on the third step... turns back, head tilted, ears twitching, eyes soft — then gives a small nod, as if to say “I always knew,” before their little body runs off into the light, light and free, carrying nothing at all.",
+ "f_whisperRabbit": "The words barely make a sound, but they come from the deepest place. {name} stops mid-hop... turns back to look at you, long ears raised to listen, nose twitching softly — then leaps into the air once more, as if to say “I always knew,” before their little body hops away into the light, light and free, carrying nothing at all.",
+ "f_watch": "You don’t call out, you don’t follow. You just stand and watch them all the way to the edge of the field. That small back running away looks at ease, four little legs trotting freely. No more pain, no more fear — only the pure happiness you gave them before you wake.",
+ "f_watchRabbit": "You don’t call out, you don’t follow. You just stand and watch them all the way to the edge of the field. Their little body hops freely across the grass, long ears bouncing with every leap. No more pain, no more fear — only the pure happiness you gave them before you wake.",
+ "wake": "The ceiling slowly comes into focus, soft morning light slipping in through the window... The dream fades, but what you felt inside is still all there. Every time you think of them, they’re still right there."
+} };
+let lang = 'th';
+function t(key, vars){
+  let str = (I18N[lang] && I18N[lang][key]) ?? I18N.th[key] ?? key;
+  if(vars) for(const k in vars) str = str.split('{'+k+'}').join(vars[k]);
+  return str;
+}
+function tn(key){ return t(key, { name: state.petName }); }
+// for strings that wrap the pet's name in markup (<b>): escape the name, keep the markup
+function tNameHtml(key){
+  return t(key).split('{name}').join(escapeHtml(state.petName));
+}
+function turnText(turn){ return typeof turn.content === 'function' ? turn.content() : turn.content; }
+
+function interactText(){
+  const k = state.interactKind, r = state.petType === 'rabbit';
+  if(k === 'hug') return tn('i_hug');
+  if(k === 'sit') return tn(r ? 'i_sitRabbit' : 'i_sit');
+  return tn(r ? 'i_smileRabbit' : 'i_smile');
+}
+function farewellText(){
+  const k = state.farewellKind, r = state.petType === 'rabbit';
+  if(k === 'pat') return tn('f_pat');
+  if(k === 'whisper') return tn(r ? 'f_whisperRabbit' : 'f_whisper');
+  return tn(r ? 'f_watchRabbit' : 'f_watch');
+}
+
+function fillEndScreen(){
+  document.getElementById('endPromiseLabel').textContent = tn('endPromiseLabel');
+  document.getElementById('endMemory').textContent = state.memory || t('defaultMemory');
+  document.getElementById('endMessage').textContent = state.promiseText || t('defaultPromise');
+}
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.title = t('docTitle');
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
+  document.querySelectorAll('.lang-opt').forEach(el => {
+    const on = el.dataset.lang === lang;
+    el.classList.toggle('active', on);
+    el.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  const active = document.querySelector('.screen.active');
+  if(active && active.id === 'screen-story'){
+    // keep whatever the player is typing across the re-render
+    const ta = document.getElementById('talkInput');
+    const draft = ta ? ta.value : '';
+    renderStory();
+    const ta2 = document.getElementById('talkInput');
+    if(ta2 && draft) ta2.value = draft;
+  }
+  if(active && active.id === 'screen-end') fillEndScreen();
+}
+
+function setLang(l){
+  lang = l;
+  try{ localStorage.setItem('dwy-lang', lang); }catch(e){}
+  applyLang();
+}
+function toggleLang(){ setLang(lang === 'th' ? 'en' : 'th'); }
+
+(function initLang(){
+  let pick = null;
+  try{ pick = new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(pick !== 'th' && pick !== 'en'){ try{ pick = localStorage.getItem('dwy-lang'); }catch(e){} }
+  if(pick !== 'th' && pick !== 'en'){
+    const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'th';
+    pick = /^th/i.test(nav) ? 'th' : 'en';
+  }
+  lang = pick;
+  applyLang();
+})();
+
 /* ---------------- utils ---------------- */
 function escapeHtml(str){
   const div = document.createElement('div');
@@ -1770,346 +2011,6 @@ function escapeHtml(str){
 
 
 
-function extractPetColors(imgEl){
-  const c = document.createElement('canvas');
-  c.width = c.height = 64;
-  const ctx = c.getContext('2d');
-  ctx.drawImage(imgEl, 0, 0, 64, 64);
-  const px = ctx.getImageData(0,0,64,64).data;
-  let r=0,g=0,b=0,n=0;
-  for(let i=0;i<px.length;i+=4){
-    const lum = px[i]*0.299 + px[i+1]*0.587 + px[i+2]*0.114;
-    if(lum>30 && lum<220){ r+=px[i]; g+=px[i+1]; b+=px[i+2]; n++; }
-  }
-  if(!n) return null;
-  r=Math.round(r/n); g=Math.round(g/n); b=Math.round(b/n);
-  return {
-    main: new THREE.Color(r/255,g/255,b/255),
-    dark: new THREE.Color(Math.max(0,r-55)/255,Math.max(0,g-55)/255,Math.max(0,b-55)/255),
-    light: new THREE.Color(Math.min(255,r+65)/255,Math.min(255,g+65)/255,Math.min(255,b+65)/255)
-  };
-}
-
-/* ================================================
-   THREE.JS 3D PET SYSTEM
-   ================================================ */
-const r3d = { scene:null, camera:null, renderer:null, model:null, rafId:null, clock:0, glowLight:null };
-
-function init3D(){
-  try{
-    const el = document.getElementById('pet3DContainer');
-    const W = el.offsetWidth || 200, H = el.offsetHeight || 220;
-    r3d.scene  = new THREE.Scene();
-    r3d.camera = new THREE.PerspectiveCamera(40, W/H, 0.1, 50);
-    r3d.camera.position.set(0, 0.35, 5.0);
-    r3d.camera.lookAt(0, 0.25, 0);
-
-    r3d.renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-    r3d.renderer.setSize(W, H);
-    r3d.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    r3d.renderer.setClearColor(0, 0);
-    r3d.renderer.toneMapping        = THREE.ACESFilmicToneMapping;
-    r3d.renderer.toneMappingExposure = 1.15;
-    el.innerHTML = '';
-    el.appendChild(r3d.renderer.domElement);
-
-    /* Lights — tuned for PBR/Standard materials */
-    r3d.scene.add(new THREE.AmbientLight(0xfff2e8, 0.55));
-
-    const key = new THREE.DirectionalLight(0xffd88a, 1.8);
-    key.position.set(2, 6, 4); r3d.scene.add(key);
-
-    const fill = new THREE.DirectionalLight(0xd8ccff, 0.70);
-    fill.position.set(-3, 1, 2); r3d.scene.add(fill);
-
-    const rim = new THREE.DirectionalLight(0xffe8d0, 0.45);
-    rim.position.set(0, -2, -3); r3d.scene.add(rim);
-
-    r3d.glowLight = new THREE.PointLight(0xFFE090, 0, 2.5);
-    r3d.glowLight.position.set(0, 0.5, 1); r3d.scene.add(r3d.glowLight);
-    r3d.clock = 0;
-  }catch(e){
-    console.warn('3D init failed', e);
-    state.photo3D = false;
-    document.getElementById('petWrap').style.display = '';
-    document.getElementById('pet3DContainer').style.display = 'none';
-  }
-}
-
-function build3DPet(petType, colors){
-  if(r3d.model) r3d.scene.remove(r3d.model);
-  const C = colors || {
-    main:  new THREE.Color(0xF4C77E),
-    dark:  new THREE.Color(0xC08830),
-    light: new THREE.Color(0xFFF4D0)
-  };
-
-  /* Low-poly flat-shaded materials — flatShading makes every polygon face visible */
-  function mat(color, rough){
-    return new THREE.MeshStandardMaterial({color, roughness:rough||0.78, metalness:0, flatShading:true});
-  }
-  const mMain  = mat(C.main,  0.75);
-  const mDark  = mat(C.dark,  0.82);
-  const mLight = mat(C.light, 0.68);
-  const mBlack = mat(0x1a1028, 0.55);
-  const mWhite = mat(0xffffff, 0.50);
-  const mPink  = mat(0xff99bb, 0.72);
-  const mIris  = mat(C.dark,  0.45);
-  const mBlushL = new THREE.MeshStandardMaterial({color:0xff6699, roughness:0.9, flatShading:true, transparent:true, opacity:0});
-  const mBlushR = new THREE.MeshStandardMaterial({color:0xff6699, roughness:0.9, flatShading:true, transparent:true, opacity:0});
-
-  const root = new THREE.Group();
-  const p = {};
-
-  /* ── Body rig ── */
-  const bodyRig = new THREE.Group();
-  root.add(bodyRig); p.bodyRig = bodyRig;
-
-  /* body — low segment count = visible polygon facets */
-  const bodyMesh = new THREE.Mesh(new THREE.SphereGeometry(0.65, 9, 7), mMain);
-  bodyMesh.scale.set(1, 0.84, 0.90); bodyRig.add(bodyMesh);
-
-  /* ── Legs with paws ── */
-  const legPos = [[-0.28,-0.60, 0.28],[0.28,-0.60, 0.28],[-0.28,-0.60,-0.22],[0.28,-0.60,-0.22]];
-  p.legs = legPos.map(([lx,ly,lz])=>{
-    const g = new THREE.Group();
-    g.position.set(lx, ly+0.16, lz);
-    /* leg cylinder */
-    const upper = new THREE.Mesh(new THREE.CapsuleGeometry(0.095, 0.20, 2, 6), mDark);
-    upper.position.y = -0.11; g.add(upper);
-    /* paw — squashed icosahedron-like sphere */
-    const paw = new THREE.Mesh(new THREE.SphereGeometry(0.108, 5, 4), mDark);
-    paw.scale.set(1.10, 0.52, 1.15); paw.position.y = -0.25; g.add(paw);
-    bodyRig.add(g); return g;
-  });
-
-  /* ── Tail ── */
-  const tailRig = new THREE.Group();
-  bodyRig.add(tailRig); p.tailRig = tailRig;
-
-  if(petType === 'dog'){
-    tailRig.position.set(0, 0.12, -0.62); tailRig.rotation.x = -0.35;
-    const tBase = new THREE.Mesh(new THREE.CapsuleGeometry(0.082, 0.22, 2, 7), mDark);
-    tBase.position.y = 0.14; tailRig.add(tBase);
-    const tTip  = new THREE.Mesh(new THREE.CapsuleGeometry(0.048, 0.14, 2, 6), mLight);
-    tTip.position.y  = 0.39; tailRig.add(tTip);
-  } else if(petType === 'cat'){
-    tailRig.position.set(0.08, -0.10, -0.62);
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0,0,0),   new THREE.Vector3(-0.05,0.34,0.08),
-      new THREE.Vector3(0,0.62,-0.10), new THREE.Vector3(0.18,0.86,0.10)
-    ]);
-    tailRig.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 8, 0.060, 5, false), mDark));
-  } else {
-    tailRig.position.set(0, 0, -0.66);
-    tailRig.add(new THREE.Mesh(new THREE.SphereGeometry(0.13, 6, 5), mDark));
-  }
-
-  /* ── Neck + Head rig ── */
-  const neckPiv = new THREE.Group();
-  neckPiv.position.set(0, 0.52, 0.18); bodyRig.add(neckPiv); p.neckPiv = neckPiv;
-  const headRig = new THREE.Group();
-  headRig.position.set(0, 0.46, 0.10); neckPiv.add(headRig); p.headRig = headRig;
-
-  /* head — few segments = angular, geometric look */
-  headRig.add(new THREE.Mesh(new THREE.SphereGeometry(0.50, 9, 7), mMain));
-
-  /* ── Ears ── */
-  p.earL = new THREE.Group(); p.earR = new THREE.Group();
-  headRig.add(p.earL); headRig.add(p.earR);
-
-  if(petType === 'cat'){
-    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
-      /* triangular cone — 4 sides looks like a real cat ear polygon */
-      const em = new THREE.Mesh(new THREE.ConeGeometry(0.19, 0.40, 4), mDark);
-      em.position.set(s*0.30, 0.44, 0); em.rotation.z = s*0.12; ear.add(em);
-      const im = new THREE.Mesh(new THREE.ConeGeometry(0.10, 0.24, 4), mPink);
-      im.position.set(s*0.30, 0.44, 0.018); im.rotation.z = s*0.12; ear.add(im);
-    });
-  } else if(petType === 'dog'){
-    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
-      const em = new THREE.Mesh(new THREE.SphereGeometry(0.24, 6, 5), mDark);
-      em.scale.set(0.60, 1.42, 0.40); em.position.set(s*0.47, 0.06, 0); em.rotation.z = s*0.28; ear.add(em);
-      const im = new THREE.Mesh(new THREE.SphereGeometry(0.14, 5, 4), mPink);
-      im.scale.set(0.50, 1.10, 0.28); im.position.set(s*0.47, 0.06, 0.04); im.rotation.z = s*0.28; ear.add(im);
-    });
-  } else {
-    [[p.earL,-1],[p.earR,1]].forEach(([ear,s])=>{
-      const em = new THREE.Mesh(new THREE.SphereGeometry(0.17, 6, 5), mDark);
-      em.position.set(s*0.37, 0.40, 0); ear.add(em);
-      const im = new THREE.Mesh(new THREE.SphereGeometry(0.09, 5, 4), mPink);
-      im.position.set(s*0.37, 0.40, 0.06); ear.add(im);
-    });
-  }
-
-  /* ── Muzzle + nose ── */
-  const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.22, 7, 5), mLight);
-  muzzle.scale.set(1, 0.68, 0.54); muzzle.position.set(0, -0.09, 0.44); headRig.add(muzzle);
-  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.065, 5, 4), mBlack);
-  nose.scale.set(1.28, 0.68, 0.76); nose.position.set(0, -0.030, 0.485); headRig.add(nose);
-
-  /* Cat whiskers — 3 per side, thin cylinders */
-  if(petType === 'cat'){
-    const whiskerAngles = [-0.22, 0, 0.22];
-    const mWhisker = mat(0xddd8c8, 0.72);
-    [-1, 1].forEach(s=>{
-      whiskerAngles.forEach((ay, i)=>{
-        const wk = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.002, 0.44, 3), mWhisker);
-        wk.rotation.z = Math.PI / 2;
-        wk.rotation.y = ay;
-        wk.position.set(s * 0.34, -0.09 + (i-1)*0.034, 0.43);
-        headRig.add(wk);
-      });
-    });
-  }
-
-  /* ── Eyes — each is a GROUP at eye center so blink scales all layers ── */
-  p.eyeLM = null; p.eyeRM = null;
-  [[-1,'eyeLM'],[1,'eyeRM']].forEach(([s,key])=>{
-    const grp = new THREE.Group();
-    grp.position.set(s*0.188, 0.065, 0.444);
-    headRig.add(grp);
-    /* sclera */
-    const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.096, 7, 6), mWhite);
-    sclera.position.z = -0.006; grp.add(sclera);
-    /* iris — low-poly disc, flattened */
-    const iris = new THREE.Mesh(new THREE.SphereGeometry(0.070, 6, 5), mIris);
-    iris.scale.z = 0.35; iris.position.z = 0.020; grp.add(iris);
-    /* pupil */
-    const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.040, 5, 4), mBlack);
-    pupil.scale.z = 0.30; pupil.position.z = 0.028; grp.add(pupil);
-    /* catchlight */
-    const cl = new THREE.Mesh(new THREE.SphereGeometry(0.017, 4, 3), mWhite);
-    cl.position.set(s<0 ? -0.005 : 0.005, 0.020, 0.035); grp.add(cl);
-    p[key] = grp;
-  });
-
-  /* ── Blush cheeks ── */
-  p.mBlushL = mBlushL; p.mBlushR = mBlushR;
-  const blG = new THREE.SphereGeometry(0.135, 6, 4);
-  const blL = new THREE.Mesh(blG, mBlushL);
-  blL.scale.set(1, 0.45, 0.20); blL.position.set(-0.27, -0.025, 0.415); headRig.add(blL);
-  const blR = new THREE.Mesh(blG, mBlushR);
-  blR.scale.set(1, 0.45, 0.20); blR.position.set(0.27, -0.025, 0.415); headRig.add(blR);
-
-  root.position.set(0, -0.62, 0);
-  root.userData = { anim:'idle', parts:p, walkX:null, fadeOut:false, opacity:1 };
-  r3d.scene.add(root);
-  r3d.model = root;
-}
-
-/* ---- 3D animation functions ---- */
-function _a_idle(t,p){
-  const b = 1+0.018*Math.sin(t*1.25);
-  p.bodyRig.scale.y=b; p.bodyRig.scale.x=1+(1-b)*0.35;
-  p.headRig.rotation.y=0.07*Math.sin(t*0.62);
-  p.headRig.rotation.z=0.022*Math.sin(t*0.50);
-  p.tailRig.rotation.z=0.13*Math.sin(t*1.15);
-  p.eyeLM.scale.setScalar(1); p.eyeRM.scale.setScalar(1);
-  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
-}
-function _a_happy(t,p,model){
-  const bounce = Math.abs(Math.sin(t*3.6))*0.15;
-  model.position.y = -0.62+bounce;
-  p.eyeLM.scale.y=0.30; p.eyeRM.scale.y=0.30;
-  p.tailRig.rotation.z=0.58*Math.sin(t*7.2);
-  p.headRig.rotation.z=0.08*Math.sin(t*3.6);
-  p.mBlushL.opacity=0.48; p.mBlushR.opacity=0.48;
-}
-function _a_listening(t,p){
-  p.headRig.rotation.z=0.24*Math.sin(t*0.38+1.0);
-  p.eyeLM.scale.setScalar(1.22); p.eyeRM.scale.setScalar(1.22);
-  p.earL.rotation.z= -0.14*Math.sin(t*0.42);
-  p.earR.rotation.z=  0.14*Math.sin(t*0.42);
-  p.bodyRig.scale.y=1+0.010*Math.sin(t*1.25);
-  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
-}
-function _a_speaking(t,p){
-  p.neckPiv.rotation.x=0.05*Math.sin(t*2.15);
-  const bc = t%3.3; const blink = (bc>2.9)?0.06:1;
-  p.eyeLM.scale.y=blink; p.eyeRM.scale.y=blink;
-  p.bodyRig.scale.y=1+0.013*Math.sin(t*2.15);
-  p.tailRig.rotation.z=0.20*Math.sin(t*2.7);
-  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
-}
-function _a_gentle(t,p){
-  p.bodyRig.scale.y=1+0.013*Math.sin(t*0.82);
-  p.neckPiv.rotation.x=0.09;
-  p.headRig.rotation.z=0.028*Math.sin(t*0.54);
-  p.eyeLM.scale.y=0.62; p.eyeRM.scale.y=0.62;
-  p.tailRig.rotation.z=0.07*Math.sin(t*0.78);
-  p.mBlushL.opacity=0.20; p.mBlushR.opacity=0.20;
-}
-function _a_walking(t,p,model){
-  const cy=t*3.4;
-  p.legs[0].rotation.x= 0.38*Math.sin(cy);
-  p.legs[1].rotation.x= 0.38*Math.sin(cy+Math.PI);
-  p.legs[2].rotation.x= 0.38*Math.sin(cy+Math.PI);
-  p.legs[3].rotation.x= 0.38*Math.sin(cy);
-  model.position.y=-0.62+0.028*Math.abs(Math.sin(cy*0.5));
-  p.headRig.rotation.x=0.04*Math.sin(cy);
-  p.tailRig.rotation.z=0.18*Math.sin(cy*0.72);
-  p.mBlushL.opacity=0; p.mBlushR.opacity=0;
-}
-
-const _animFns = { idle:_a_idle, happy:_a_happy, listening:_a_listening, speaking:_a_speaking, gentle:_a_gentle, walking:_a_walking };
-
-function set3DGlow(on){
-  if(r3d.glowLight) r3d.glowLight.intensity = on ? 2.2 : 0;
-}
-
-let _lastTs = null;
-function loop3D(ts){
-  r3d.rafId = requestAnimationFrame(loop3D);
-  const dt = _lastTs ? Math.min((ts-_lastTs)/1000,0.05) : 0.016;
-  _lastTs = ts;
-  r3d.clock += dt;
-  const t = r3d.clock;
-
-  if(!r3d.renderer){ return; }
-  if(!r3d.model){ r3d.renderer.render(r3d.scene, r3d.camera); return; }
-
-  const ud = r3d.model.userData;
-
-  /* walk-in / walk-away */
-  if(ud.walkX !== null){
-    r3d.model.position.x += (ud.walkX - r3d.model.position.x)*0.055;
-    if(Math.abs(r3d.model.position.x - ud.walkX)<0.03){
-      r3d.model.position.x = ud.walkX;
-      const atCenter = (Math.abs(ud.walkX)<0.1);
-      ud.walkX = null;
-      if(atCenter && !ud.fadeOut) ud.anim='idle';
-    }
-  }
-
-  /* fade out on farewell */
-  if(ud.fadeOut){
-    ud.opacity = Math.max(0, ud.opacity - 0.006);
-    r3d.model.traverse(obj=>{
-      if(obj.isMesh && obj.material){
-        obj.material.transparent=true;
-        obj.material.opacity = ud.opacity;
-      }
-    });
-  }
-
-  /* ── Procedural high-poly model ── */
-  const p = ud.parts;
-  p.bodyRig.scale.set(1,1,1);
-  p.neckPiv.rotation.set(0,0,0);
-  p.headRig.rotation.set(0,0,0);
-  p.tailRig.rotation.set(0,0,0);
-  p.earL.rotation.set(0,0,0);
-  p.earR.rotation.set(0,0,0);
-  p.legs.forEach(l=>l.rotation.set(0,0,0));
-  if(!ud.fadeOut) r3d.model.position.y=-0.62;
-
-  const fn = _animFns[ud.anim] || _a_idle;
-  fn(t, p, r3d.model);
-  r3d.model.rotation.y = 0.06*Math.sin(t*0.28);
-
-  r3d.renderer.render(r3d.scene, r3d.camera);
-}
 </script>
 </body>
 </html>

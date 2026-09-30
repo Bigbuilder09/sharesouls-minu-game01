@@ -2,6 +2,9 @@
 /dream-with-you.html
   Cache-Control: public, max-age=0, must-revalidate
 
+/dream-with-you
+  Cache-Control: public, max-age=0, must-revalidate
+
 /
   Cache-Control: public, max-age=0, must-revalidate
 
