@@ -1,3 +1,12 @@
+# ทุกหน้า: security headers
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
 # HTML - revalidate ทุกครั้งเพื่อให้ update ใหม่ถึง user เสมอ
 /dream-with-you.html
   Cache-Control: public, max-age=0, must-revalidate
@@ -5,31 +14,12 @@
 /dream-with-you
   Cache-Control: public, max-age=0, must-revalidate
 
-/
-  Cache-Control: public, max-age=0, must-revalidate
-
-# รูปภาพ - cache 1 ปี (ไม่เปลี่ยนบ่อย)
+# รูปและเสียง - ชื่อไฟล์ไม่เปลี่ยนเวลาแก้ไฟล์ จึง cache 7 วัน (ถ้าเป็น 1 ปี คนเก่าจะไม่เห็นไฟล์ที่อัปเดต)
 /*.png
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
 /*.jpg
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
-/*.webp
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.ico
-  Cache-Control: public, max-age=31536000, immutable
-
-/moji/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/images/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# เสียง - cache 1 ปี
 /*.mp3
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.wav
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

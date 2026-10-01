@@ -1030,7 +1030,7 @@
 <body>
 
 
-<audio id="bgm" loop src="bgm.mp3" preload="auto"></audio>
+<audio id="bgm" loop src="bgm.mp3" preload="none"></audio>
 <audio id="sfxCat" src="cat sound.mp3" preload="auto"></audio>
 <audio id="sfxDog" src="puppy-barks.mp3" preload="auto"></audio>
 <audio id="sfxRabbit" src="rabbit.mp3" preload="auto"></audio>
@@ -1285,6 +1285,7 @@ function beginDream(){
   }
   state.petName = nameVal;
   state.memory  = memVal;
+  track('dream_start', { pet_type: state.petType, lang, has_memory: !!memVal });
 
   const petWrap = document.getElementById('petWrap');
   petWrap.style.display = '';
@@ -1538,6 +1539,7 @@ function setPetState(stateName){
 }
 
 function chooseInteraction(kind){
+  track('interaction_choose', { kind });
   playPetSound();
   state.interactKind = kind;
   storyStep = 'interact_result';
@@ -1557,6 +1559,7 @@ function sendVent(){
   if(!msg) { input.focus(); return; }
   sending = true;
   state.ventText = msg;
+  track('vent_sent', { pet_type: state.petType });
   state.conversation.push({ role:'user', content: msg });
   pushScriptedLines(monologueLines, afterVentMonologue);
 }
@@ -1568,6 +1571,7 @@ function sendPromise(){
   if(!msg) { input.focus(); return; }
   sending = true;
   state.promiseText = msg;
+  track('promise_sent', { pet_type: state.petType });
   state.conversation.push({ role:'user', content: msg });
   pushScriptedLines(promiseReactionLines, afterPromiseReaction);
 }
@@ -1576,6 +1580,7 @@ function chooseFarewell(kind){
   playPetSound();
   const petWrap = document.getElementById('petWrap');
   state.farewellKind = kind;
+  track('farewell_choose', { kind });
   petWrap.style.transition = 'opacity 2.5s ease';
   petWrap.style.opacity = '0.15';
   storyStep = 'farewell_result';
@@ -1618,6 +1623,7 @@ function chooseFarewell(kind){
 
 /* ---------------- finish / end screen ---------------- */
 function finishDream(){
+  track('dream_finish', { pet_type: state.petType, lang });
   fillEndScreen();
   goTo('screen-end');
   setTimeout(() => {
@@ -1698,6 +1704,7 @@ function initAllCarousels() {
 
 /* ---------------- restart ---------------- */
 function restart(){
+  track('dream_restart');
   document.getElementById('petName').value='';
   document.getElementById('petName').style.borderColor='';
   stopAllCarousels();
@@ -1984,6 +1991,7 @@ function applyLang(){
 }
 
 function setLang(l){
+  if(l !== lang) track('lang_change', { to: l });
   lang = l;
   try{ localStorage.setItem('dwy-lang', lang); }catch(e){}
   applyLang();
@@ -2003,6 +2011,11 @@ function toggleLang(){ setLang(lang === 'th' ? 'en' : 'th'); }
 })();
 
 /* ---------------- utils ---------------- */
+/* analytics (Google Analytics if installed, otherwise nothing). Never send names, memories or typed messages. */
+function track(name, params){
+  try{ if(typeof window.gtag === 'function') window.gtag('event', name, params || {}); }catch(e){}
+}
+
 function escapeHtml(str){
   const div = document.createElement('div');
   div.textContent = str;
